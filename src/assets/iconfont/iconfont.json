@@ -1,0 +1,100 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "630127",
+      "name": "意见反馈",
+      "font_class": "yijianfankui",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "1263300",
+      "name": "请假",
+      "font_class": "qingjia",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "1581883",
+      "name": "学生",
+      "font_class": "chengyuan",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "3930499",
+      "name": "学生",
+      "font_class": "xuesheng",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "5767879",
+      "name": "执行反馈",
+      "font_class": "zhihangfankui",
+      "unicode": "ec35",
+      "unicode_decimal": 60469
+    },
+    {
+      "icon_id": "5777533",
+      "name": "地区管理",
+      "font_class": "diqu",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "6527115",
+      "name": "人员",
+      "font_class": "renyuan",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "8413128",
+      "name": "分析",
+      "font_class": "fenxi",
+      "unicode": "e701",
+      "unicode_decimal": 59137
+    },
+    {
+      "icon_id": "8821276",
+      "name": "人员-01",
+      "font_class": "renyuan-",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "9839625",
+      "name": "校园支付",
+      "font_class": "xiaoyuanzhifu",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "10455013",
+      "name": "离职人员",
+      "font_class": "lizhirenyuan",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "15326669",
+      "name": "人员",
+      "font_class": "renyuan1",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "16050276",
+      "name": "管理人员",
+      "font_class": "guanlirenyuan",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <trees>
+     <tree path="/src/views/administrator/schoolManage" title="在校人员管理"/>
+     <tree path="/src/views/administrator/schoolManage/facultyManage" title="教职工管理"/>
+     <tree path="/src/views/administrator/epidemicManage" title="防疫人员管理"/>
+     <tree path="/src/views/administrator/studentLeaveApproval" title="学生请假审批" icons="NodesModule"/>
+     <tree path="/src/views/administrator/feedbackProcess" title="反馈受理"/>
+     <tree path="/src/views/epidemicPersonnel/isolationManage/isolatedManage" title="已隔离人员"/>
+ </trees>
