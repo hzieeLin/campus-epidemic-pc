@@ -43,7 +43,7 @@
         </el-card>
       </div>
     </div>
-    <div class="pagination">
+    <div class="pagination flex-end-center">
       <el-pagination  v-model:currentPage="queryInfo.pageNum"
                       v-model:page-size="queryInfo.pageSize"
                       background layout="prev, pager, next" :total="total" @size-change="handlePageSize" @current-change="handlePageNum"/>
@@ -248,14 +248,6 @@ const handleProcess = (e) => {
         }
       }
     }
-  }
-  .pagination {
-    border-top: 1px solid #e0e0e0;
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    height: 100px;
   }
 }
 </style>

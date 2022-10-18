@@ -1,11 +1,11 @@
 <template>
-  <div class="common-layout">
+  <div class="common-layout flex-column">
       <HeaderNav></HeaderNav>
       <div style="flex: 1;display: flex;">
         <div class="aside">
           <SideBar></SideBar>
         </div>
-        <div class="right-main">
+        <div class="right-main flex-column">
           <BreadCrumb/>
           <RouterView/>
         </div>
@@ -24,16 +24,12 @@ import SideBar from '../../components/sideBar/SideBar.vue'
 .common-layout {
   width: 100vw;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   .aside {
     background: #fcfdff;
   }
   .right-main {
     background: #f2f7f9;
     flex: 1;
-    display: flex;
-    flex-direction: column;
   }
 }
 </style>

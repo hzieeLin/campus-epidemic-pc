@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog @close="onClose" v-model="props.queryShowVisible" title="查看" top="0">
+    <el-dialog @close="onClose" v-model="props.queryShowVisible" title="查看" top="5%">
       <div v-if="!showCard">
         <el-descriptions title="学生基本信息" >
           <el-descriptions-item label="学号">{{props.queryStuInfo.code}}</el-descriptions-item>
@@ -20,7 +20,7 @@
           </el-descriptions-item>
         </el-descriptions>
       </div>
-      <a-calendar v-model:value="value" v-else>
+      <a-calendar v-model:value="value" :locale="locale" v-else>
         <template #dateCellRender="{ current }">
           <ul class="events">
             <li v-for="item in getListData(current)" :key="item.content">
@@ -42,36 +42,38 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, reactive, ref} from "vue";
 const props = defineProps(['queryStuInfo','queryShowVisible'])
 const emit = defineEmits(['onClose'])
-const value = ref();
+import {locale} from '../../locale'
+import { Dayjs } from 'dayjs';
 const showCard = ref(false)
 const onClose = () => {
   emit('queryClose', false)
 }
-const getListData = (value) => {
+const  value = ref<Dayjs>();
+const getListData = (value: Dayjs) => {
   let listData;
-  switch (value.date()) {
+  switch (value.month() === 9 && value.date()) {
     case 8:
       listData = [
-        { type: 'success', content: '体温正常' },
-        { type: 'success', content: '绿码' },
+        { type: 'success', content: '健康码正常' },
+        { type: 'success', content: '今日已打卡' },
       ];
       break;
     case 9:
       listData = [
-        { type: 'success', content: '体温正常' },
-        { type: 'success', content: '绿码' },
+        { type: 'success', content: '健康码正常' },
+        { type: 'success', content: '今日未打卡' },
       ];
       break;
     case 10:
       listData = [
-        { type: 'success', content: '体温正常' },
-        { type: 'success', content: '绿码' }
+        { type: 'success', content: '健康码异常' },
+        { type: 'success', content: '今日已打卡' },
       ];
-      break
+      break;
     default:
   }
   return listData || [];
@@ -115,8 +117,5 @@ const getListData = (value) => {
 }
 .notes-month section {
   font-size: 28px;
-}
-:deep(.ant-picker-calendar-header) {
-  display: none;
 }
 </style>

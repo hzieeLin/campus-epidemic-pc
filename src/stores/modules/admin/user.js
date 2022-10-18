@@ -2,17 +2,11 @@ import { defineStore} from "pinia";
 
 export default defineStore('user', {
   state: () => ({
-    info: {}
+    info: JSON.parse(localStorage.getItem('info')||'[]')
   }),
-  persist: {
-    enabled: true,
-    strategies: [
-      { storage: sessionStorage, paths: ['info'] }
-    ]
-  },
   actions: {
     setInfo(infos) {
-      this.info = infos
+      localStorage.setItem('info', JSON.stringify(infos))
     }
   }
 })

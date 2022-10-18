@@ -5,7 +5,7 @@ import util from '../../../util/index.js'
 // const user = useUserStore()
 export default defineStore('account', {
   state: () => ({
-    userInfo: {}
+    userInfo: JSON.parse(localStorage.getItem('userInfo')) || {}
   }),
   actions: {
     /**

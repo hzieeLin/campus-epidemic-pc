@@ -1,15 +1,8 @@
 <template>
-  <div>
-    个人中心
-  </div>
 </template>
 
-<script>
-export default {
-  name: "index"
-}
+<script setup lang="ts">
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
 </style>

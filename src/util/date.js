@@ -26,5 +26,6 @@ export function getDaysBetween(startDate, enDate) {
   console.log(eDate)
   if (sDate > eDate) return 0    //开始日期大于结束日期，返回0
   if (sDate === eDate) return 1  //如果日期相同 返回一天
-  return (eDate - sDate) / (24 * 60 * 60 * 1000)
+  const cur = (eDate - sDate) / (24 * 60 * 60 * 1000)
+  return cur/14*100;
 }

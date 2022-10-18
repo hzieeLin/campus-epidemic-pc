@@ -21,7 +21,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="pagination">
+        <div class="pagination flex-end-center">
           <el-pagination
               v-model:currentPage="queryInfo.pageNum"
               v-model:page-size="queryInfo.pageSize"
@@ -96,12 +96,5 @@ const handleIsolation = (id) => {
   width: 97%;
   height: 100%;
   background: transparent;
-}
-.pagination {
-  width: 100%;
-  height: 100px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
 }
 </style>

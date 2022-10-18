@@ -1,6 +1,7 @@
 <template>
   <el-dialog
-      v-model="props.handleShowVisible"
+      v-if="props.handleShowVisible"
+      v-model="showVisible"
       id="dialog"
       title="请假处理"
       top="10vh"
@@ -42,7 +43,7 @@
           <el-button class="reputation" v-else type="danger">信誉{{stuInfo.reputation}}</el-button>
         </div>
       </div>
-      <div class="char-box" ref="box">
+      <div class="char-box" id="box" ref="box">
         <div v-for="(item, index) in charList" :key="item.id">
           <div v-if="item.type === 1|| item.type === 3" style="text-align: center">
             {{item.time}}
@@ -76,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, watch} from "vue";
+import {onMounted, onUpdated, ref, watch, getCurrentInstance, reactive} from "vue";
 import {DealReturnLeave} from "../../../../api/administrator/insert";
 import {GetPageLeaveList} from "../../../../api/administrator/query.js"
 const props = defineProps(['handleShowVisible','stuInfo'])
@@ -84,7 +85,9 @@ const stuInfo = ref({})
 // eslint-disable-next-line vue/no-setup-props-destructure
 stuInfo.value = props.stuInfo
 const emit = defineEmits(['onSure', 'onClose'])
+const showVisible = ref(true)
 const footerShow = ref(false)
+let { ctx: proxy } = getCurrentInstance()
 watch(()=> props.handleShowVisible ,(newVal) => {
   if (newVal === false) {
     footerShow.value = false
@@ -95,6 +98,10 @@ watch(()=> props.handleShowVisible ,(newVal) => {
 const showReason = ref(false)
 const reason = ref('')
 const reasonDisable = ref(true)
+const box = ref(null)
+box.value = proxy.$refs.box
+onMounted(() => {
+})
 watch(() => reason.value, (newVal) => {
   reasonDisable.value = newVal === '';
 }, {immediate: true})
@@ -104,6 +111,9 @@ const dealReturnLeave = () => {
     message: reason.value
   }
   DealReturnLeave(data).then(() => {
+    proxy.$forceUpdate();
+    box.value.scrollTop = box.value.scrollHeight + '60'
+    console.log(box.value.scrollHeight)
     queryStuInfoByCode(stuInfo.value.code)
     reason.value = ''
   })
@@ -150,6 +160,14 @@ const onSure = (state, id, reason) => {
 watch(() => stuInfo.value, (newVal) => {
   newVal.complex.shift()
   charList.value = newVal.complex
+})
+watch(() => box.value, (newVal) => {
+  console.log(newVal)
+  if (newVal === undefined) {
+    return
+  }
+  console.log(box.value.scrollHeight)
+  box.value.scrollTop = box.value.scrollHeight
 })
 const charList = ref([])
 </script>

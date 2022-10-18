@@ -1,11 +1,10 @@
 <template>
   <div class="school-stu-main">
-      <el-card shadow="never" style="border: 0px">
+      <el-card shadow="never" style="border: 0">
         <SearchCard @add="add" inputType="stu" @keyQuery="keyQueryStuInfo"/>
       </el-card>
     <div class="table-box">
-      <el-table style="width: 100%" :data="stuInfo" size="large" :header-cell-style="tableStyle.header" :row-style="tableStyle.row"
-      >
+      <el-table style="width: 100%" :data="stuInfo" size="large" :header-cell-style="tableStyle.header" :row-style="tableStyle.row">
         <template  v-for="(item,index) in stuColumns" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" :width="item.width" />
         </template>
@@ -19,7 +18,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
+      <div class="pagination flex-end-center">
         <el-pagination
             v-model:currentPage="queryInfo.pageNum"
             v-model:page-size="queryInfo.pageSize"
@@ -197,13 +196,6 @@ const getClassListByCode = (data) => {
       .btn {
         margin-right: 15px;
       }
-    }
-    .pagination {
-      width: 100%;
-      height: 100px;
-      display: flex;
-      justify-content: end;
-      align-items: center;
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="bread-container">
+  <div class="bread-container flex-align-center">
     <a-breadcrumb>
       <a-breadcrumb-item><span style="color: #919191">校园疫情防控系统</span></a-breadcrumb-item>
       <a-breadcrumb-item>{{menu.BreadCrumbList[0]}}</a-breadcrumb-item>
@@ -17,8 +17,6 @@ const menu = useMenuStore()
 .bread-container {
   width: 100%;
   height: 4.8vh;
-  display: flex;
-  align-items: center;
   background: #FFFFFF;
   padding-left: 20px;
   user-select: none;

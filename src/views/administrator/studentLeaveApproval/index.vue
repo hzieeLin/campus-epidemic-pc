@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-      <div class="pagination">
+      <div class="pagination flex-end-center">
         <el-pagination  v-model:currentPage="queryInfo.pageNum"
                         v-model:page-size="queryInfo.pageSize"
                         background layout="prev, pager, next" :total="total"
@@ -282,13 +282,6 @@ const onSure = (e) => {
           align-items: center;
         }
       }
-    }
-    .pagination {
-      width: 100%;
-      display: flex;
-      justify-content: end;
-      align-items: center;
-      height: 100px;
     }
   }
 }

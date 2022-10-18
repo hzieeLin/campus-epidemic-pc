@@ -22,7 +22,7 @@
             </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
+      <div class="pagination flex-end-center">
         <el-pagination
             v-model:currentPage="queryInfo.pageNum"
             v-model:page-size="queryInfo.pageSize"
@@ -57,24 +57,7 @@ onMounted(() => {
 })
 const getIsolationList = () => {
   GetIsolationList(queryInfo.value).then((res) => {
-    // list.value = res.data
-    res.data = [
-        { className: "计算机科学与技术1903",
-          code: "1902010301",
-          deptName:"计算机学院",
-          endTime: '2022-10-14 00:00:00',
-          id:"1565742071703244801",
-          majorName: "计算机科学与技术",
-          name: "测试1",
-          preventionPersonnelCode: null,
-          preventionPersonnelName: null,
-          quarantineLocation: "校园集中隔离点A",
-          startTime: '2022-09-30 00:00:00',
-          state: 0}]
     list.value = res.data
-    console.log(res.data)
-    console.log(res.data)
-    // getDaysBetween(dateFormat(null, 0), item.endTime)
     total.value = res.total
   })
 }
@@ -101,12 +84,5 @@ const handlePageNum = (num) => {
   width: 97%;
   height: 100%;
   background: transparent;
-  .pagination {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-  }
 }
 </style>

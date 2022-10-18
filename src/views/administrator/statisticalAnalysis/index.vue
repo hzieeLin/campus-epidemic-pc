@@ -1,7 +1,7 @@
 <template>
   <div class="page-container" >
     <div id="allmap"></div>
-    <div class="top-box">
+    <div class="top-box flex-space-between-center">
       <div class="top-item" v-for="(item,index) in topData" :key="item.id">
         <el-card class="top-item-card"  shadow="never">
           <div>
@@ -23,52 +23,17 @@
     <div class="right-box">
       <div class="right-box-item" style="position: relative">
         <div class="title">各学院防疫人员/隔离人员配比</div>
-        <div id="c1" style="position: absolute; width: 480px;height: 260px; top: 0"></div>
+        <div id="c1" style="position: absolute; width: 100%;height: 100%; top: 0"></div>
       </div>
       <div class="right-box-item">
         <div class="title">各学院防疫人员占比</div>
-        <div id="c2" style="width: 380px;height: 200px;margin: 0 auto"></div>
+        <div id="c2" style="width: 80%;height: 70%; margin: 0 auto;"></div>
       </div>
       <div class="right-box-item" style="position: relative">
         <div class="title">新增隔离人数趋势</div>
-        <div id="c3" style="position: absolute; width: 480px;height: 240px; top: 0"></div>
+        <div id="c3" style="position: absolute; width: 100%;height: 100%; top: 0"></div>
       </div>
     </div>
-<!--&lt;!&ndash;      <el-card class="trend-box" style="margin-top: 20px"  shadow="never">&ndash;&gt;-->
-<!--        <div class="trend-left">-->
-<!--          <div class="trend-left-header">-->
-<!--            <span>新增隔离人数趋势</span>-->
-<!--            <el-select placeholder="最近7天" style="background: #F5FAFD;">-->
-<!--              <el-option label="最近7天" value="7"></el-option>-->
-<!--              <el-option label="最近14天" value="14"></el-option>-->
-<!--            </el-select>-->
-<!--          </div>-->
-<!--          <div class="trend-left-content" ref="contentSize">-->
-<!--            <div id="c1"> </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="trend-right">-->
-<!--          <div class="trend-right-header">今日即将解除隔离名单</div>-->
-<!--          <div class="trend-right-content">-->
-<!--            <div class="table-header"></div>-->
-<!--            <div class="table-content">-->
-<!--              <div id="con1" ref="con1" :class="{anim:animate==true}" @mouseenter="mEnter" @mouseleave="mLeave">-->
-<!--                <div v-for='(item, index) in unlist' :key="index" style="margin: 5px 0; display: flex;justify-content: space-around">-->
-<!--                  <div style="flex-basis: 25%;">{{item.id}}</div>-->
-<!--                  <div style="flex-basis: 25%;">{{item.name}}</div>-->
-<!--                  <div style="flex-basis: 25%;">{{item.time}}</div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </el-card>-->
-<!--    <div class="footer-box" style="margin-top: 20px">-->
-<!--      <el-card class="footer-right" style="margin-left: 20px"  shadow="never">-->
-<!--        <div id="c3" style="width: 400px;height: 400px;"></div>-->
-<!--      </el-card>-->
-<!--    </div>-->
-<!--    <div class="footer" style="width: 100%;height: 200px;"></div>-->
   </div>
 </template>
 
@@ -93,7 +58,7 @@ onMounted(() => {
 
 const init = () => {
   let AMap = window.AMap;
-  var map = new AMap.Map("allmap", {
+  let map = new AMap.Map("allmap", {
     rotateEnable:true,
     pitchEnable:true,
     zoom: 19,
@@ -102,11 +67,10 @@ const init = () => {
     viewMode:'3D', //开启3D视图,默认为关闭
     // zooms:[2,20],
     center: [119.822565,30.292662], //中心点坐标
-    // mapStyle: "amap://styles/8527631f83d5e09bbb53a1cb768d404d", //自定义地图的显示样式
   });
 };
 const loadMapScript = () => {
-  var script = document.createElement("script");
+  let script = document.createElement("script");
   script.type = "text/javascript";
   script.className = "loadmap"; // 给script一个类名
   script.src =
@@ -123,15 +87,6 @@ const loadMapScript = () => {
   }
   document.body.appendChild(script);
 }
-// const data = ref([
-//     {year: '2022-05-01', value: 3},
-//     {year: '2022-05-02', value: 10},
-//     {year: '2022-05-03', value: 6},
-//     {year: '2022-05-04', value: 3},
-//     {year: '2022-05-05', value: 0},
-//     {year: '2022-05-06', value: 11},
-//     {year: '2022-05-07', value: 5},
-// ]);
 const data = ref({
   tooltip: {
     trigger: 'axis'
@@ -272,9 +227,9 @@ const data = ref({
 const handleIsolationTrendCharts = () => {
   const myChart = echarts.init(document.getElementById('c3'))
   myChart.setOption(data.value, true)
-  window.onresize = () => {
-    myChart.resize()
-  }
+  window.addEventListener("resize", () => {
+    myChart.resize();
+  })
 }
 const data2 = ref( {
   legend: {
@@ -494,7 +449,6 @@ const handleDistributedCharts = () => {
 }
 .page-container {
   position: relative;
-  //margin: 24px auto auto;
   width: 100%;
   height: 100%;
   background: transparent;
@@ -504,8 +458,6 @@ const handleDistributedCharts = () => {
     z-index: 2;
     width: 70%;
     height: 190px;
-    display: flex;
-    justify-content: space-between;
     .top-item {
       flex-basis: 24%;
       display: flex;
@@ -552,79 +504,6 @@ const handleDistributedCharts = () => {
         font-size: 24px;
         color: #4B5960;
       }
-    }
-  }
-  .trend-box {
-    height: 500px;
-    background: #F5FAFD;
-    :deep(.el-card__body) {
-      height: 500px;
-      width: 100%;
-      display: flex;
-      .trend-left {
-        flex-basis:75%;
-        display: flex;
-        flex-direction: column;
-        .trend-left-header {
-          flex-basis: 12%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 20px 0 10px;
-          border-bottom: 1px solid #e0e0e0;
-        }
-        .trend-left-content {
-          flex: 1;
-          position: relative;
-          #c1 {
-            position: absolute;
-            width: 1200px;
-            height: 350px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-          }
-        }
-      }
-      .trend-right {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        .trend-right-header {
-          flex-basis: 12%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 20px 0 40px;
-          border-bottom: 1px solid #e0e0e0;
-        }
-        .trend-right-content {
-          flex: 1;
-          margin-left: 30px;
-        }
-      }
-    }
-  }
-  .footer-box {
-    width: 100%;
-    height: 500px;
-    display: flex;
-    .footer-left {
-      flex-basis: 55%;
-      position: relative;
-      background: #F5FAFD;
-      #c2 {
-        position: absolute;
-        width: 700px;
-        height: 350px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-    .footer-right {
-      flex: 1;
-      background: #F5FAFD;
     }
   }
 }

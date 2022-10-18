@@ -1,13 +1,12 @@
 <template>
-  <div class="page-container">
+  <div class="page-container flex-center-center">
+    <div class="circle"></div>
+    <div class="circle"></div>
     <div class="login-container">
-      <div class="null"></div>
-      <div class="mid-img">
-<!--        <img src="../../assets/images/account_left.png" alt="">-->
-      </div>
-      <div class="right-form">
+      <h1 class="title">校园疫情防控系统</h1>
+      <div class="right-form flex-end-center">
         <div class="form-box">
-          <div class="top-switch"><span>登录</span></div>
+          <div class="top-switch flex-align-center"><div>登录</div></div>
           <div class="form">
             <el-form v-if="loginType">
               <el-form-item>
@@ -21,12 +20,12 @@
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item style="display: flex; justify-content: space-between">
-                <div style="flex-basis: 60%"><el-input></el-input></div>
-<!--                <img src="../../assets/images/account_left.png" width="80" height="40" alt="">-->
-              </el-form-item>
+              <!--              <el-form-item style="display: flex; justify-content: space-between">-->
+              <!--                <div style="flex-basis: 60%"><el-input></el-input></div>-->
+              <!--                <img src="../../assets/images/account_left.png" width="80" height="40" alt="">-->
+              <!--              </el-form-item>-->
               <el-form-item>
-                <el-button @click="login">登录</el-button>
+                <el-button @click="login" style="background: #3588F0; font-size: 16px">登 录</el-button>
               </el-form-item>
               <div class="phone" @click="changeLoginType(false)">手机号登录</div>
             </el-form>
@@ -47,12 +46,15 @@
               <el-form-item>
               </el-form-item>
               <el-form-item>
-                <el-button @click="loginByPhone">登录</el-button>
+                <el-button @click="loginByPhone" style="background: #3588F0; font-size: 16px">登录</el-button>
               </el-form-item>
               <div class="phone" @click="changeLoginType(true)">账号登录</div>
             </el-form>
           </div>
         </div>
+      </div>
+      <div class="mid-img flex-center-center">
+        <img src="../../../src/assets/images/协同工作.svg" alt="">
       </div>
     </div>
   </div>
@@ -93,8 +95,7 @@ const login = () => {
     } else {
       router.replace('/isolationFeedbackProcess')
     }
-    }).catch(err => {
-  })
+    })
 
 }
 const loginInfo1 = reactive({
@@ -129,52 +130,66 @@ const changeLoginType = (state) => {
 .page-container {
   width: 100vw;
   height: 100vh;
-  background: #ECECEC;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: #F6FAFF;
+  position: relative;
+  .circle {
+    width: 600px;
+    height: 600px;
+    background: #98B5ED;
+    border-radius: 100% 40% 100% 10%;
+    position: absolute;
+    bottom: -40%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+  }
+  .circle:nth-child(1) {
+    position: absolute;
+    top: 10%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+  }
+
   .login-container {
-    width: 65%;
-    height: 70%;
-    background: #FFFFFF;
+    border: 5px solid #155B9D;
+    border-radius: 40px;
+    width: 70%;
+    height: 80%;
     display: flex;
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
-    .null {
-      flex-basis: 8%;
+    position: relative;
+    background: #F6FAFF;
+    .title {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 10%;
+      left: 16%;
+      font-weight: bolder;
+      font-size: 40px;
+      color: #4F5C74;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     }
     .mid-img {
-      flex-basis: 42%;
+      flex-basis: 70%;
       img {
-        width: 100%;
-        height: 100%;
+        width: 70%;
       }
     }
     .right-form {
       flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       .form-box {
-        width: 70%;
+        width: 80%;
         height: 80%;
-        //border: #e0e0e0 1px solid;
+        margin-top: 200px;
         .top-switch {
           height: 20%;
-          display: flex;
-          align-items: center;
           padding: 0 10%;
-          span {
-            font-size: 22px;
+          font-weight: bolder;
+          div {
+            font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+            width: 100%;
+            color: #58687D;
+            text-align: right;
+            font-size: 20px;
             position: relative;
-            //&:after {
-            //  content: "";
-            //  position: absolute;
-            //  width: 44px;
-            //  height: 4px;
-            //  background: #000;
-            //  left: 0;
-            //  bottom: -20%;
-            //}
           }
         }
         .form {

@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <el-card shadow="never" class="top-card">
-      <div v-for="(item, index) in awaitList" :key="index" class="text-box cursor" @click="queryRiskLevel(index)">
+      <div v-for="(item, index) in awaitList" :key="index" class="text-box cursor flex-column-center-center" @click="queryRiskLevel(index)">
         <p :style="{color: item.color}">{{item.title}}</p>
         <h2>{{item.num}}</h2>
       </div>
@@ -32,7 +32,7 @@
           </div>
         </el-table-column>
       </el-table>
-      <div class="pagination">
+      <div class="pagination flex-end-center">
         <el-pagination
             v-model:currentPage="queryInfo.pageNum"
             v-model:page-size="queryInfo.pageSize"
@@ -166,10 +166,6 @@ const handleEditLevel = (e) => {
       .text-box {
         width: 80%;
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         border-right: 1px solid #e0e0e0;
         &:last-child {
           border-right: 0px solid #e0e0e0;
@@ -195,13 +191,6 @@ const handleEditLevel = (e) => {
       .btn {
         margin-right: 15px;
       }
-    }
-    .pagination {
-      width: 100%;
-      height: 100px;
-      display: flex;
-      justify-content: end;
-      align-items: center;
     }
   }
 }

@@ -2,8 +2,8 @@
   <div class="header">
     <div class="title">校园疫情防控系统</div>
     <div class="user-info cursor" @mousemove="showSelect = true" @mouseleave="showSelect = false">
-      <img class="user-avatar" src="../../../src/assets/images/touxiang.png" alt="">
-      <p class="user-name">{{user.info.account === undefined ? user.info.name : user.info.account}}</p>
+      <img class="user-avatar" src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar" alt="">
+      <p class="user-name">{{user.info.account}}</p>
       <transition name="el-zoom-in-top">
         <div class="select-box" v-show="showSelect">
           <p class="select-item" @click="changeItem(1)">个人中心</p>
@@ -54,6 +54,7 @@ const changeItem = (i) => {
   }
   .user-info {
     position: absolute;
+    z-index: 99;
     right: 5%;
     width: 140px;
     height: 55px;
@@ -63,9 +64,11 @@ const changeItem = (i) => {
     font-size: 18px;
     .user-avatar {
       height: 60%;
+      border-radius: 50%;
     }
     .user-name {
-      margin: 0;
+      color: #fff;
+      margin: 0 0 0 10px;
       height: 5.3vh;
       line-height: 5.3vh;
     }
