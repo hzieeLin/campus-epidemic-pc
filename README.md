@@ -38,7 +38,7 @@ npm run lint
 api
 plugins -> request
 router
-store -> index -> modules  -> admin(里面token获取得看后端的字段名)
+store -> index ->
 styles -> index -> common -> menu
-util -> index -> cookie ->  date -> validate(校验判断)
+util -> index -> cookie ->  date 
 ```

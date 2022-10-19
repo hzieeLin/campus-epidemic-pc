@@ -20,21 +20,24 @@
           </el-descriptions-item>
         </el-descriptions>
       </div>
-      <a-calendar v-model:value="value" :locale="locale" v-else>
-        <template #dateCellRender="{ current }">
-          <ul class="events">
-            <li v-for="item in getListData(current)" :key="item.content">
-              <a-badge :status="item.type" :text="item.content" />
-            </li>
-          </ul>
-        </template>
-        <template #monthCellRender="{ current }">
-          <div v-if="getMonthData(current)" class="notes-month">
-            <section>{{ getMonthData(current) }}</section>
-            <span>Backlog number</span>
-          </div>
-        </template>
-      </a-calendar>
+      <div v-else>
+        <left-outlined class="cursor" @click="showCard = false"/>
+        <a-calendar v-model:value="value" :locale="locale">
+          <template #dateCellRender="{ current }">
+            <ul class="events">
+              <li v-for="item in getListData(current)" :key="item.content">
+                <a-badge :status="item.type" :text="item.content" />
+              </li>
+            </ul>
+          </template>
+          <template #monthCellRender="{ current }">
+            <div v-if="getMonthData(current)" class="notes-month">
+              <section>{{ getMonthData(current) }}</section>
+              <span>Backlog number</span>
+            </div>
+          </template>
+        </a-calendar>
+      </div>
       <template #footer>
         <el-button @click="onClose">关闭</el-button>
       </template>
@@ -43,16 +46,17 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 const props = defineProps(['queryStuInfo','queryShowVisible'])
 const emit = defineEmits(['onClose'])
+import { GetStuDaily} from '../../../../../api/administrator/query'
 import {locale} from '../../locale'
 import { Dayjs } from 'dayjs';
 const showCard = ref(false)
 const onClose = () => {
   emit('queryClose', false)
 }
-const  value = ref<Dayjs>();
+const  value = ref<Dayjs>()
 const getListData = (value: Dayjs) => {
   let listData;
   switch (value.month() === 9 && value.date()) {
@@ -78,15 +82,21 @@ const getListData = (value: Dayjs) => {
   }
   return listData || [];
 };
-// const healthyColor = (onMounted((color) => {
-//   if (color === 0) {
-//     return '绿码'
-//   } else if (color === 1) {
-//     return '黄码'
-//   } else if (color === 2) {
-//     return '红码'
-//   }
-// }) )
+watch(() => showCard.value, (newVal) => {
+  if (newVal) {
+    getStuDaily()
+  }
+})
+const getStuDaily = () => {
+  const data = {
+    id: props.queryStuInfo.id,
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1
+  }
+  GetStuDaily(data).then(res => {
+    console.log(res)
+  })
+}
 </script>
 
 <style lang="less" scoped>

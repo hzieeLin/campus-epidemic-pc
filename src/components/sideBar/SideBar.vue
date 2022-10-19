@@ -28,7 +28,6 @@
         </div>
       </a-sub-menu>
     </a-menu>
-<!--    <SideItem></SideItem>-->
   </div>
 </template>
 
@@ -37,7 +36,6 @@ import { ref, onMounted, watch} from "vue";
 import { useMenuStore} from '../../stores/index.js'
 const menuList = ref([])
 const menu = useMenuStore()
-console.log(menuList.value)
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()

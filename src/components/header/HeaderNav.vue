@@ -3,7 +3,7 @@
     <div class="title">校园疫情防控系统</div>
     <div class="user-info cursor" @mousemove="showSelect = true" @mouseleave="showSelect = false">
       <img class="user-avatar" src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar" alt="">
-      <p class="user-name">{{user.info.account}}</p>
+      <p class="user-name">{{user.info.account === undefined ? user.info.name: user.info.account}}</p>
       <transition name="el-zoom-in-top">
         <div class="select-box" v-show="showSelect">
           <p class="select-item" @click="changeItem(1)">个人中心</p>
@@ -32,8 +32,8 @@ const changeItem = (i) => {
     LoginOut().then(() => {
       util.cookies.remove('token')
       router.replace('/login')
-      user.setInfo(null)
-      menu.setMenus()
+      user.setInfo([])
+      menu.setMenus([])
     })
   }
 }

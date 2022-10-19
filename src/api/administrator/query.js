@@ -35,11 +35,26 @@ export function GetStuInfoList(data) {
   })
 }
 
+export function GetStuDaily(data) {
+  return request({
+    url: `/studentDaily/queryStudentDaily`,
+    methods: 'get',
+    params: {...data}
+  })
+}
 // 获得职工列表
 export function GetFacultyInfoList(data) {
   return request({
     url: `/teacher/queryTeacherPage`,
     method: 'get',
+    params: {...data}
+  })
+}
+
+export function GetFacultyDaily(data) {
+  return request({
+    url: `/teacherDaily/queryTeacherDailyHistory`,
+    methods: 'get',
     params: {...data}
   })
 }

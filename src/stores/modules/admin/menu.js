@@ -9,14 +9,8 @@ export default defineStore('menu', {
       // 默认侧边栏宽度
       sideWidth: '13vw',
       BreadCrumbList: [],
-      menuList:[]
+      menuList: []
     }
-  },
-  persist: {
-    enabled: true,
-    strategies: [
-      { storage: sessionStorage, paths: ['menuList'] },
-    ],
   },
   actions: {
     toggleSide() {
@@ -26,14 +20,18 @@ export default defineStore('menu', {
     setBreadCrumbList(info) {
       this.BreadCrumbList = info
     },
-    setMenus() {
-      this.menuList = []
-      window.sessionStorage.clear()
+    setMenus(res) {
+      console.log('setMenu', res)
+      this.menuList = res
     },
     getMenus() {
-      GetMenus().then((res) => {
-        this.menuList = res
-      })
+
     }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      { storage: sessionStorage, paths: ['menuList'] }
+    ]
   }
 })

@@ -40,7 +40,7 @@
 import SearchBox from '../../../../components/searchBox/index.vue'
 import {onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
-// import {GetIsolationList} from "../../../../api/epidemicPersonnel/query";
+import {GetIsolationList} from "../../../../api/epidemicPersonnel/query";
 const queryInfo = ref({
   pageNum: 1,
   pageSize: 10,
@@ -53,17 +53,10 @@ onMounted(() => {
   getToBeIsolationPerson()
 })
 const getToBeIsolationPerson = () => {
-  // GetIsolationList(queryInfo.value).then((res) => {
-  //   list.value = res.data
-  //   total.value = res.total
-  // })
-  list.value = [
-    {code: '001', name: '张三', className: '1909', area: '小行星', message: 1},
-    {code: '001', name: '张三', className: '1909', area: '小行星', message: 0},
-    {code: '001', name: '张三', className: '1909', area: '小行星', message: 1},
-    {code: '001', name: '张三', className: '1909', area: '小行星', message: 0},
-    {code: '001', name: '张三', className: '1909', area: '小行星', message: 1},
-  ]
+  GetIsolationList(queryInfo.value).then((res) => {
+    list.value = res.data
+    total.value = res.total
+  })
 }
 const queryKeyWaitIsolation = (e) => {
   console.log(e)

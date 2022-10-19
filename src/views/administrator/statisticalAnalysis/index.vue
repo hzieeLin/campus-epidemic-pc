@@ -365,9 +365,8 @@ const data3 = ref({
       selectedMode: 'single',     //选中模式：单选
       radius: ['40%', '70%'],         //饼图大小，[x,y]:x表示内半径，y表示外半径
       label: {                    //标签
-        normal: {
-          position: 'inner'       //标签位置：内部
-        }
+        show: false,
+        position: 'center'
       },
       labelLine: {        //提示框
         normal: {

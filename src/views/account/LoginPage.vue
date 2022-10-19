@@ -70,15 +70,18 @@ const changeView = (state) => {
   pwdType.value = state === true ? 'text': 'password'
 }
 const loginInfo = reactive({
+  // username: '0422',
   username: 'adminjisuanji',
   password: '123456',
   code: ''
 })
 const router = useRouter()
 import { useUserStore, useMenuStore } from '../../stores/index.js'
+
+
 import {AccountLogin} from "../../api/account";
 import util from "../../util";
-
+import {GetMenus} from "../../api/system/menu";
 const login = () => {
   const list = {
     account: loginInfo.username,
@@ -86,9 +89,11 @@ const login = () => {
   }
   AccountLogin(list).then(res => {
     util.cookies.set('token', res.token)
-    const menu = useMenuStore()
+    GetMenus().then((res) => {
+      const menu = useMenuStore()
+      menu.setMenus(res)
+    })
     const user = useUserStore()
-    menu.getMenus()
     user.setInfo(res.information)
     if (res.userType === '管理员') {
       router.replace('/statisticalAnalysis')

@@ -48,7 +48,14 @@ export function QueryPageEpidemicMyselfFeedbackAcceptance(data) {
 // 统计隔离人员的数据
 export function StatisticsAllData() {
   return request({
-    url: '',
+    url: '/isolationPerson/queryEpidemicIsolationPersonAnalysis',
+    method: 'get'
+  })
+}
+// 统计反馈
+export function AnalyzeEpidemicFeedbackAcceptance() {
+  return request({
+    url: '/feedbackAcceptance/analyzeEpidemicFeedbackAcceptance',
     method: 'get'
   })
 }

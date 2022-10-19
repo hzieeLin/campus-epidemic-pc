@@ -103,7 +103,10 @@ const awaitList = ref([
 ])
 const statisticsAllData = () => {
   StatisticsAllData().then((res) => {
-    awaitList.value = res.data
+    awaitList.value[0].num = res.notificationNotQuarantined
+    awaitList.value[1].num = res.isolated
+    awaitList.value[2].num = res.treat
+    awaitList.value[3].num = res.end
   })
 }
 const queryInfo = ref({
