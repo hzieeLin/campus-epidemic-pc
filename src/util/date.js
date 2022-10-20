@@ -17,6 +17,8 @@ export function dateFormat(time, types) {
     return `${month}.${day}`
   } else if (types === 3) {
     return `${date.getSeconds()}`
+  } else if (types === 4) {
+    return `${day}`
   }
 }
 export function getDaysBetween(startDate, enDate) {

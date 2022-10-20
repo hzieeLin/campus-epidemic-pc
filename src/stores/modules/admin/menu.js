@@ -1,5 +1,4 @@
 import { defineStore} from "pinia";
-import {GetMenus} from "../../../api/system/menu";
 
 export default defineStore('menu', {
   state: () => {
@@ -24,9 +23,6 @@ export default defineStore('menu', {
       console.log('setMenu', res)
       this.menuList = res
     },
-    getMenus() {
-
-    }
   },
   persist: {
     enabled: true,

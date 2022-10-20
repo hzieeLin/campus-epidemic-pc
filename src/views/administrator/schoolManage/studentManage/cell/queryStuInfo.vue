@@ -52,34 +52,31 @@ const emit = defineEmits(['onClose'])
 import { GetStuDaily} from '../../../../../api/administrator/query'
 import {locale} from '../../locale'
 import { Dayjs } from 'dayjs';
+import { dateFormat} from '../../../../../util/date.js'
+import { getHealthyCode} from '../../../../../util/Enums.js'
 const showCard = ref(false)
 const onClose = () => {
   emit('queryClose', false)
 }
 const  value = ref<Dayjs>()
+const dataList = ref([])
 const getListData = (value: Dayjs) => {
   let listData;
-  switch (value.month() === 9 && value.date()) {
-    case 8:
+  dataList.value.forEach((item) => {
+    console.log(value.date())
+    console.log(item)
+    if(value.date() == item.day) {
+      console.log('exist')
       listData = [
-        { type: 'success', content: '健康码正常' },
         { type: 'success', content: '今日已打卡' },
-      ];
-      break;
-    case 9:
+        { type: 'success', content: `健康码${getHealthyCode(item.healthCode)}` }
+      ]
+    } else  {
       listData = [
-        { type: 'success', content: '健康码正常' },
-        { type: 'success', content: '今日未打卡' },
-      ];
-      break;
-    case 10:
-      listData = [
-        { type: 'success', content: '健康码异常' },
-        { type: 'success', content: '今日已打卡' },
-      ];
-      break;
-    default:
-  }
+        { type: 'warning', content: '今日未打卡' }
+      ]
+    }
+  })
   return listData || [];
 };
 watch(() => showCard.value, (newVal) => {
@@ -94,7 +91,15 @@ const getStuDaily = () => {
     month: new Date().getMonth() + 1
   }
   GetStuDaily(data).then(res => {
-    console.log(res)
+    dataList.value = res
+    res.forEach((item) => {
+      dataList.value.push({
+        day: dateFormat(item.createTime, 4),
+        has: item.promise,
+        healthCode: item.healthCode
+      })
+    })
+    // console.log(dateF)dataList.value[0].createTime
   })
 }
 </script>

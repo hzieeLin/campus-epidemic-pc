@@ -50,7 +50,7 @@ const queryInfo = ref({
   pageSize: 10,
   keyword: '',
   wordType: 0,
-  state: -1
+  state: 1
 })
 onMounted(() => {
   getIsolationList()
