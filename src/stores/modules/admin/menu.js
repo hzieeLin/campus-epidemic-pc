@@ -8,7 +8,7 @@ export default defineStore('menu', {
       // 默认侧边栏宽度
       sideWidth: '13vw',
       BreadCrumbList: [],
-      menuList: []
+      menuList: JSON.parse(localStorage.getItem('menuList') || '[]')
     }
   },
   actions: {
@@ -20,14 +20,8 @@ export default defineStore('menu', {
       this.BreadCrumbList = info
     },
     setMenus(res) {
-      console.log('setMenu', res)
       this.menuList = res
+      localStorage.setItem('menuList', JSON.stringify(res))
     },
-  },
-  persist: {
-    enabled: true,
-    strategies: [
-      { storage: sessionStorage, paths: ['menuList'] }
-    ]
   }
 })
