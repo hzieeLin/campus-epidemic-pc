@@ -112,7 +112,7 @@ const changeTypeFilter = () => {
 }
 const leaveList = ref([])
 const queryInfo = ref({
-  typeFilter: 0,
+  typeFilter: 1,
   wordType: 1,
   keyword: '',
   isStrideCounty: -1,

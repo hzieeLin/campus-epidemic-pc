@@ -11,19 +11,19 @@
         <template #icon>
           <em :class="item.icon" style="font-size: 16px"></em>
         </template>
-        <span>{{item.title}}</span>
+        <span style="font-size: 14px; margin-left: 5px;">{{item.title}}</span>
       </a-menu-item>
       <a-sub-menu :key="item.countId" v-else>
         <template #icon>
           <em :class="item.icon" ></em>
         </template>
-        <template #title ><span>{{item.title}}</span></template>
+        <template #title ><span style="font-size: 14px; margin-left: 5px;">{{item.title}}</span></template>
         <div v-for="(child,index) in item.children" :key="index">
           <a-menu-item :key="child.countId" @click="replaceByPath(child.path)">
             <template #icon>
               <em  :class="child.icon"></em>
             </template>
-            <span>{{child.title}}</span>
+            <span style="font-size: 14px; margin-left: 5px;">{{child.title}}</span>
           </a-menu-item>
         </div>
       </a-sub-menu>
