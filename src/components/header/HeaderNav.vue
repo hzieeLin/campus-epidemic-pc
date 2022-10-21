@@ -1,6 +1,10 @@
 <template>
   <div class="header">
     <div class="title">校园疫情防控系统</div>
+    <div style="margin: 0 20px" class="cursor">
+      <right-square-outlined @click="handleSideMenu" v-if="!menu.isSide" style="font-size: 20px; color: #FFFFFF"/>
+      <left-square-outlined @click="handleSideMenu" v-else style="font-size: 20px; color: #FFFFFF"/>
+    </div>
     <div class="user-info cursor" @mousemove="showSelect = true" @mouseleave="showSelect = false">
       <img class="user-avatar" src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar" alt="">
       <p class="user-name">{{user.info.account === undefined ? user.info.name: user.info.account}}</p>
@@ -25,6 +29,9 @@ console.log(user.info.name)
 const menu = useMenuStore()
 const router = useRouter()
 const showSelect = ref(false)
+const handleSideMenu = () => {
+  menu.toggleSide()
+}
 const changeItem = (i) => {
   if (i === 1) {
     router.replace('/myInfo')

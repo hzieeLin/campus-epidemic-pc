@@ -8,7 +8,7 @@ export function dateFormat(time, types) {
   const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
   const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
   // 将时间全转换成秒
-  const H = `${date.getSeconds()}`
+  // const H = `${date.getSeconds()}`
   if (types === 0) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
   } else if (types === 1) {
@@ -26,8 +26,11 @@ export function getDaysBetween(startDate, enDate) {
   console.log(sDate)
   const eDate = Date.parse(enDate)
   console.log(eDate)
-  if (sDate > eDate) return 0    //开始日期大于结束日期，返回0
-  if (sDate === eDate) return 1  //如果日期相同 返回一天
-  const cur = (eDate - sDate) / (24 * 60 * 60 * 1000)
-  return cur/14*100;
+  let cur = 0
+  if (sDate === eDate || sDate > eDate) return 1  //如果日期相同 返回一天
+  else {
+    cur = (eDate - sDate) / (24 * 60 * 60 * 1000) + 1
+    console.log((14-cur)/14*100)
+    return cur;
+  }
 }

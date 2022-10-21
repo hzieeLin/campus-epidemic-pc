@@ -10,46 +10,46 @@
     </template>
     <el-form v-model="form" :rules="rules">
       <div class="form-box">
-          <div class="item-cow">
-            <el-form-item label="工号" name="code" prop="code">
-              <el-input v-model.trim="form.code" placeholder="请输入工号" />
-            </el-form-item>
-          </div>
-          <div class="item-cow">
-            <el-form-item label="姓名" name="name" prop="name">
-              <el-input v-model.trim="form.name" placeholder="请输入姓名" />
-            </el-form-item>
-          </div>
-          <div class="item-cow">
-            <el-form-item label="联系方式" name="phone" prop="phone">
-              <el-input v-model.trim="form.phone" placeholder="请输入联系方式" />
-            </el-form-item>
-          </div>
-          <div class="item-cow">
-            <el-form-item label="性别" name="sex" prop="sex">
-              <el-radio-group v-model="form.sex">
-                <el-radio :label="1">男</el-radio>
-                <el-radio :label="2">女</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </div>
-          <div class="item-cow">
-            <el-form-item label="身份证" name="idCard" prop="idCard">
-              <el-input v-model.trim="form.idCard" />
-            </el-form-item>
-          </div>
-          <div class="item-cow">
-            <el-form-item label="居住地址" name="address">
-              <el-input v-model.trim="form.address"/>
-            </el-form-item>
-          </div>
-          <div class="item-cow">
-            <el-form-item label="所属学院" name="deptCode">
-              <el-select v-model="form.deptCode" >
-                <el-option :value="item.label" v-for="(item, index) in props.DeptList" :key="index">{{item.label}}</el-option>
-              </el-select>
-            </el-form-item>
-          </div>
+        <div class="item-cow">
+          <el-form-item label="工号" name="code" prop="code">
+            <el-input v-model.trim="form.code" placeholder="请输入工号" />
+          </el-form-item>
+        </div>
+        <div class="item-cow">
+          <el-form-item label="姓名" name="name" prop="name">
+            <el-input v-model.trim="form.name" placeholder="请输入姓名" />
+          </el-form-item>
+        </div>
+        <div class="item-cow">
+          <el-form-item label="联系方式" name="phone" prop="phone">
+            <el-input v-model.trim="form.phone" placeholder="请输入联系方式" />
+          </el-form-item>
+        </div>
+        <div class="item-cow">
+          <el-form-item label="性别" name="sex" prop="sex">
+            <el-radio-group v-model="form.sex">
+              <el-radio :label="1">男</el-radio>
+              <el-radio :label="2">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </div>
+        <div class="item-cow">
+          <el-form-item label="身份证" name="idCard" prop="idCard">
+            <el-input v-model.trim="form.idCard" />
+          </el-form-item>
+        </div>
+        <div class="item-cow">
+          <el-form-item label="居住地址" name="address">
+            <el-input v-model.trim="form.address"/>
+          </el-form-item>
+        </div>
+        <div class="item-cow">
+          <el-form-item label="所属学院" name="deptCode">
+            <el-select v-model="form.deptCode" >
+              <el-option :value="item.label" v-for="(item, index) in props.DeptList" :key="index">{{item.label}}</el-option>
+            </el-select>
+          </el-form-item>
+        </div>
       </div>
     </el-form>
     <template #footer>
@@ -77,14 +77,14 @@ const form = reactive({
   address: ''
 })
 const rules = ref(
-  { code: [{ required: true, message: '请输入工号', trigger: 'blur' },
-          { min: 4, max: 5, message: '长度在 4个字符', trigger: 'blur' }],
-    name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-    deptCode: [{ required: true, message: '请选择所属学院', trigger: 'change' }],
-    phone: [{ type: 'phone', required: true, message: '请输入正确的手机号', trigger: 'blur' }],
-    sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    idCard: [{ required: true, message: '请输入正确的手机号', trigger: 'blur' }]
-})
+    { code: [{ required: true, message: '请输入工号', trigger: 'blur' },
+        { min: 4, max: 5, message: '长度在 4个字符', trigger: 'blur' }],
+      name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      deptCode: [{ required: true, message: '请选择所属学院', trigger: 'change' }],
+      phone: [{ type: 'phone', required: true, message: '请输入正确的手机号', trigger: 'blur' }],
+      sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+      idCard: [{ required: true, message: '请输入正确的手机号', trigger: 'blur' }]
+    })
 const onClose = () => {
   emit('addClose', false)
 }

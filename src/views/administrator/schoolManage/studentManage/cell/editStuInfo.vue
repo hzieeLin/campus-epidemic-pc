@@ -9,84 +9,84 @@
       <h4 class="titleClass">修改学生信息</h4>
     </template>
     <el-form>
-            <div class="form-box">
-              <div class="item-row">
-                <div class="item-cow">
-                  <el-form-item label="学号" name="code">
-                    <el-input  v-model="props.editStuInfo.code" placeholder="请输入学号" />
-                  </el-form-item>
-                </div>
-                <div class="item-cow">
-                  <el-form-item label="姓名" name="name">
-                    <el-input  v-model="props.editStuInfo.name" placeholder="请输入学号" />
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="item-row">
-                <div class="item-cow">
-                  <el-form-item label="联系方式" name="phone">
-                    <el-input  v-model="props.editStuInfo.phone" placeholder="请输入联系方式" />
-                  </el-form-item>
-                </div>
-                <div class="item-cow">
-                  <el-form-item label="性别" name="sex">
-                    <el-radio-group v-model="props.editStuInfo.sex">
-                      <el-radio :label="1">男</el-radio>
-                      <el-radio :label="2">女</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="item-row">
-                <div class="item-cow">
-                  <el-form-item label="身份证" name="idCard">
-                    <el-input v-model="props.editStuInfo.idCard" />
-                  </el-form-item>
-                </div>
-                <div class="item-cow">
-                  <el-form-item label="居住地址" name="address">
-                    <el-input v-model="props.editStuInfo.address"/>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="item-row">
-                <div class="item-cow">
-                  <el-form-item label="所属学院" name="deptCode">
-                    <el-select v-model="props.editStuInfo.deptName" @change="getMajorListByCode(props.editStuInfo.deptCode)">
-                      <el-option :value="item.label" v-for="(item, index) in DeptList" :key="index">{{item.label}}</el-option>
-                    </el-select>
-                  </el-form-item>
-                </div>
-                <div class="item-cow">
-                  <el-form-item label="所属专业" name="majorCode">
-                    <el-select v-model="props.editStuInfo.majorName"  @change="getMajorListByCode(props.editStuInfo.majorCode)">
-                      <el-option :value="item.label" v-for="(item, index) in majorList" :key="index" >{{item.label}}</el-option>
-                    </el-select>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="item-row">
-                <div class="item-cow">
-                  <el-form-item label="所在班级" name="classCode">
-                    <el-select v-model="props.editStuInfo.className" placeholder="请选择对应的班级号" >
-                      <el-option :value="item.label" v-for="(item, index) in classList" :key="index">{{item.label}}</el-option>
-                    </el-select>
-                  </el-form-item>
-                </div>
-                <div class="item-cow">
-                  <el-form-item label="紧急联系人" name="emergencyContact">
-                    <el-input v-model="props.editStuInfo.emergencyContact" />
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="item-row">
-                <div class="item-cow">
-                  <el-form-item label="紧急联系人联系方式" name="emergencyPhone">
-                    <el-input  v-model="props.editStuInfo.emergencyPhone"/>
-                  </el-form-item>
-                </div>
-              </div>
-            </div>
+      <div class="form-box">
+        <div class="item-row">
+          <div class="item-cow">
+            <el-form-item label="学号" name="code">
+              <el-input  v-model="props.editStuInfo.code" placeholder="请输入学号" />
+            </el-form-item>
+          </div>
+          <div class="item-cow">
+            <el-form-item label="姓名" name="name">
+              <el-input  v-model="props.editStuInfo.name" placeholder="请输入学号" />
+            </el-form-item>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item-cow">
+            <el-form-item label="联系方式" name="phone">
+              <el-input  v-model="props.editStuInfo.phone" placeholder="请输入联系方式" />
+            </el-form-item>
+          </div>
+          <div class="item-cow">
+            <el-form-item label="性别" name="sex">
+              <el-radio-group v-model="props.editStuInfo.sex">
+                <el-radio :label="1">男</el-radio>
+                <el-radio :label="2">女</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item-cow">
+            <el-form-item label="身份证" name="idCard">
+              <el-input v-model="props.editStuInfo.idCard" />
+            </el-form-item>
+          </div>
+          <div class="item-cow">
+            <el-form-item label="居住地址" name="address">
+              <el-input v-model="props.editStuInfo.address"/>
+            </el-form-item>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item-cow">
+            <el-form-item label="所属学院" name="deptCode">
+              <el-select v-model="props.editStuInfo.deptName" @change="getMajorListByCode(props.editStuInfo.deptCode)">
+                <el-option :value="item.label" v-for="(item, index) in DeptList" :key="index">{{item.label}}</el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+          <div class="item-cow">
+            <el-form-item label="所属专业" name="majorCode">
+              <el-select v-model="props.editStuInfo.majorName"  @change="getMajorListByCode(props.editStuInfo.majorCode)">
+                <el-option :value="item.label" v-for="(item, index) in majorList" :key="index" >{{item.label}}</el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item-cow">
+            <el-form-item label="所在班级" name="classCode">
+              <el-select v-model="props.editStuInfo.className" placeholder="请选择对应的班级号" >
+                <el-option :value="item.label" v-for="(item, index) in classList" :key="index">{{item.label}}</el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+          <div class="item-cow">
+            <el-form-item label="紧急联系人" name="emergencyContact">
+              <el-input v-model="props.editStuInfo.emergencyContact" />
+            </el-form-item>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item-cow">
+            <el-form-item label="紧急联系人联系方式" name="emergencyPhone">
+              <el-input  v-model="props.editStuInfo.emergencyPhone"/>
+            </el-form-item>
+          </div>
+        </div>
+      </div>
     </el-form>
     <template #footer>
       <div class="edit-footer">
@@ -171,12 +171,6 @@ const editStuInfo = () => {
   console.log(data)
   UpdateStuInfo(data).then(res =>{
     console.log(res)
-    // ElMessage.success()
-    // if (res.code === 10006) {
-    //
-    // }else {
-    //   ElMessage.success('更新学生信息成功！')
-    // }
     onClose()
     console.log(res)
   }).catch(err => {

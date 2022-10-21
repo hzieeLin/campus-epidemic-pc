@@ -49,7 +49,11 @@ import {
   CountDeptPeopleProportion, CountNewIsolationList,
   CountPeopleDistribution
 } from "../../../api/administrator/query";
+<<<<<<< HEAD
 import { rightData1,rightData2, rightData3 } from "./echarsOptions";
+=======
+import { rightData1 } from "./echarsOptions";
+>>>>>>> c9584a6 (feat: 统计分析)
 
 const bgColor = reactive([
     '#F63D2E','#FD7F13','#FDBA04','#10C8C0'
@@ -71,6 +75,7 @@ onMounted(() => {
 })
 const getPeopleDistribution = () => {
   CountPeopleDistribution().then(res => {
+<<<<<<< HEAD
     topData.value[0].num = res.data.allIsolationNum
     topData.value[0].vary = res.data.allIsolationPositive ? res.data.allIsolationPercent : ~res.data.allIsolationPercent
     topData.value[1].num = res.data.newIsolationNum
@@ -79,11 +84,22 @@ const getPeopleDistribution = () => {
     topData.value[2].vary = res.data.newRemovePositive ? res.data.newRemovePercent : ~res.data.newRemovePercent
     topData.value[3].num = res.data.leaveYesterdayNum
     topData.value[3].vary = res.data.leaveYesterdayPositive ? res.data.leaveYesterdayPercent : ~res.data.leaveYesterdayPercent
+=======
+    topData.value[0].num = res.allIsolationNum
+    topData.value[0].vary = res.allIsolationPositive ? res.allIsolationPercent : ~res.allIsolationPercent
+    topData.value[1].num = res.newIsolationNum
+    topData.value[1].vary = res.newIsolationPositive ? res.newIsolationPercent : ~res.newIsolationPercent
+    topData.value[2].num = res.newRemoveNum
+    topData.value[2].vary = res.newRemovePositive ? res.newRemovePercent : ~res.newRemovePercent
+    topData.value[3].num = res.leaveYesterdayNum
+    topData.value[3].vary = res.leaveYesterdayPositive ? res.leaveYesterdayPercent : ~res.leaveYesterdayPercent
+>>>>>>> c9584a6 (feat: 统计分析)
   })
 }
 const getDeptPeopleProportion = () => {
   CountDeptPeopleProportion().then(res => {
     console.log('res1', res)
+<<<<<<< HEAD
     res.data.epidemicList.forEach(item => {
       data2.value.xAxis.data.push(item.name)
       data2.value.series[0].data.push(item.count)
@@ -92,10 +108,13 @@ const getDeptPeopleProportion = () => {
       data2.value.series[1].data.push(item.count)
     })
     handleCharts()
+=======
+>>>>>>> c9584a6 (feat: 统计分析)
   })
 }
 const getDeptEpidemicNum = () => {
   CountDeptEpidemicNum().then(res => {
+<<<<<<< HEAD
     res.data.data.forEach(item => {
       data3.value.series[0].data.push({
         value: item.count
@@ -113,6 +132,15 @@ const getDeptEpidemicNum = () => {
 const getNewIsolationList = () => {
   CountNewIsolationList().then(res => {
     res.data.data.forEach(item => {
+=======
+    console.log('res2', res)
+  })
+}
+const getNewIsolationList = () => {
+  CountNewIsolationList().then(res => {
+    console.log('res3', res)
+    res.data.forEach(item => {
+>>>>>>> c9584a6 (feat: 统计分析)
       data.value.xAxis.data.unshift(item.time)
       data.value.series[0].data.unshift({
         value: item.count

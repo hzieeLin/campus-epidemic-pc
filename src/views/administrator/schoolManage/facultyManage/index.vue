@@ -27,23 +27,23 @@
         <el-table-column label="操作" width="150">
           <template #default="scope">
             <div class="table-operations cursor">
-            <span @click="handleFacultyQuery(scope.row)">查看</span>
-            <span @click="handleFacultyEdit(scope.row)">编辑</span>
-            <span @click="handleFacultyDelete(scope.row.code)">删除</span>
+              <span @click="handleFacultyQuery(scope.row)">查看</span>
+              <span @click="handleFacultyEdit(scope.row)">编辑</span>
+              <span @click="handleFacultyDelete(scope.row.code)">删除</span>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination flex-end-center">
         <el-pagination
-      v-model:currentPage="queryInfo.pageNum"
-      v-model:page-size="queryInfo.pageSize"
-      :page-sizes="[10, 15, 30, 50]"
-      background
-      layout="prev, pager, next, sizes"
-      :total="total"
-      @size-change="handlePageSize"
-      @current-change="handlePageNum"/>
+            v-model:currentPage="queryInfo.pageNum"
+            v-model:page-size="queryInfo.pageSize"
+            :page-sizes="[10, 15, 30, 50]"
+            background
+            layout="prev, pager, next, sizes"
+            :total="total"
+            @size-change="handlePageSize"
+            @current-change="handlePageNum"/>
       </div>
     </div>
     <QueryFacultyInfo :queryShowVisible="queryShowVisible"
@@ -56,6 +56,7 @@
     </AddFacultyInfo>
     <EditFacultyInfo :editShowVisible="editShowVisible"
                      :editFacultyInfo="editFacultyInfo"
+                     @updateInfo="handleUpdateInfo"
                      @editClose="editClose"
                      :DeptList="DeptList"
     >
@@ -68,7 +69,7 @@
         @onSure="handleFacultyEpidemicStatus"
         @onDelFaculty="DelFaculty"
         :msgType="msgType"
-      >
+    >
     </MessageDialog>
   </div>
 </template>
@@ -157,6 +158,10 @@ const DelFaculty = () => {
     getFacultyInfo()
   })
 }
+const handleUpdateInfo = () => {
+  editShowVisible.value = false
+  getFacultyInfo()
+}
 const editShowVisible = ref(false)
 const editFacultyInfo = ref({})
 const handleFacultyEdit = (info) => {
@@ -169,7 +174,7 @@ const editClose = () => {
 // 添加教职工
 const addShowVisible = ref(false)
 const addFaculty = () => {
-    addShowVisible.value = true
+  addShowVisible.value = true
 }
 const addClose = () => {
   addShowVisible.value = false
@@ -188,11 +193,11 @@ const warnClose = () => {
   getFacultyInfo()
 }
 const handleFacultyEpidemicStatus = () => {
-    UpdateFacultyEpidemicStatus(codeList.value).then(() => {
-      getFacultyInfo()
-      warnShowVisible.value = false
-    })
-  }
+  UpdateFacultyEpidemicStatus(codeList.value).then(() => {
+    getFacultyInfo()
+    warnShowVisible.value = false
+  })
+}
 </script>
 <style lang="less" scoped>
 .page-container {

@@ -3,7 +3,11 @@
     <a-menu
         v-model:selectedKeys="selectedKeys"
         mode="inline"
-        style="background: #FFFFFF; width: 12vw;"
+        :inlineCollapsed="!menu.isSide"
+        :collapse-transition = "false"
+        :inlineIndent="24"
+        class="menu-transition"
+        :style="{width: menu.sideWidth}"
         v-for="(item, i0) in menuList"
         :key="i0"
     >
@@ -15,13 +19,13 @@
       </a-menu-item>
       <a-sub-menu :key="item.countId" v-else>
         <template #icon>
-          <em :class="item.icon" ></em>
+          <em :class="item.icon"></em>
         </template>
-        <template #title ><span style="font-size: 14px; margin-left: 5px;">{{item.title}}</span></template>
+        <template #title ><span style="font-size: 14px; margin-left: 8px;">{{item.title}}</span></template>
         <div v-for="(child,index) in item.children" :key="index">
           <a-menu-item :key="child.countId" @click="replaceByPath(child.path)">
             <template #icon>
-              <em  :class="child.icon"></em>
+              <em  :class="child.icon" style="margin-left: 5px;"></em>
             </template>
             <span style="font-size: 14px; margin-left: 5px;">{{child.title}}</span>
           </a-menu-item>
@@ -40,13 +44,13 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 watch(() => route.matched, (newVal) => {
-  if (newVal.length === 2) {
-    menu.setBreadCrumbList([newVal[1].name])
-  } else if (newVal.length === 3) {
-    const list = [newVal[1].name,newVal[2].name]
-      menu.setBreadCrumbList(list)
-  }
-},
+      if (newVal.length === 2) {
+        menu.setBreadCrumbList([newVal[1].name])
+      } else if (newVal.length === 3) {
+        const list = [newVal[1].name,newVal[2].name]
+        menu.setBreadCrumbList(list)
+      }
+    },
     {
       immediate: true
     })
@@ -82,5 +86,7 @@ const findRouter = () => {
 <style lang="less" scoped>
 .side-container {
   margin-top: 10px;
+  .menu-transition {
+  }
 }
 </style>
