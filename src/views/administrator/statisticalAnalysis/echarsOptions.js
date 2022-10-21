@@ -1,56 +1,123 @@
-export let topDatas = {
+export const rightData1 = {
+  tooltip: {
+    trigger: 'axis'
+  },
   legend: {
-    data: ['防疫人员', '隔离人员'],
-    left: '10%'
+    data: ['新增隔离人数'],
+    top: '5%',
+    right: '4%',
+    color: '#0093ff'
   },
-  brush: {
-    toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
-    xAxisIndex: 0
-  },
-  toolbox: {
-    feature: {
-      magicType: {
-        type: ['stack']
-      },
-      dataView: {}
-    }
-  },
-  tooltip: {},
-  xAxis: {
-    data: ['文学院', '计算机学院','教育学院','体育科学学院','医学院','护理学院','公共卫生学院','商学院','艺术学院'],
-    name: '学院',
-    axisLine: { onZero: true },
-    splitLine: { show: false },
-    splitArea: { show: false }
-  },
-  yAxis: {},
   grid: {
-    bottom: 100
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    boundaryGap: false,
+    nameLocation: 'center',
+    splitLine: {
+      show: false,
+      lineStyle: {
+        color: '#ebebeb'
+      }
+    },
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    nameGap: 10,
+    nameTextStyle: {
+      fontSize: 14,
+      padding: [0, 0, 10, 0]
+    },
+    data: []
+  },
+  yAxis: {
+    type: 'value',
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    minInterval: 1,
+    nameGap: 20,
+    nameLocation: 'center',
+    nameRotate: '90',
+    nameTextStyle: {
+      fontSize: 14,
+      padding: [0, 0, 0, 0, 0]
+    },
+    splitLine: {
+      // 网格线
+      lineStyle: {
+        type: 'dashed'
+      },
+      show: true
+    }
   },
   series: [
     {
-      name: '防疫人员',
-      type: 'bar',
-      stack: 'one',
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(0,0,0,0.3)'
+      name: '新增隔离人数',
+      type: 'line',
+      stack: 'Total',
+      symbol: 'circle',
+      symbolSize: 7,
+      data: [],
+      lineStyle: { // 设置线条的style等
+        normal: {
+          color: '#10C8C0', // 折线线条颜色:红色,
+          width: 3
         }
       },
-      data: [11,22,33,44,55,66,77,88,99]
-    },
-    {
-      name: '隔离人员',
-      type: 'bar',
-      stack: 'one',
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(0,0,0,0.3)'
+      itemStyle : {
+        color:{     //渐变  属性值 同CSS
+          type:"linear",
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: '#10C8C0' // 0% 处的颜色
+          }, {
+            offset: 1, color: '#fff' // 100% 处的颜色
+          }],
         }
       },
-      data: [99,88,77,66,55,44,33,22,11]
+      areaStyle: {
+        normal: {
+          color: {
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0.1,
+                color: '#D2F4F3' // 0% 处的颜色
+              },
+              {
+                offset: 0.5,
+                color: '#DBF6F6' // 0% 处的颜色
+              },
+              {
+                offset: 0.8,
+                color: '#EBF9FA' // 0% 处的颜色
+              },
+              {
+                offset: 0.9,
+                color: '#F9FDFE' // 100% 处的颜色
+              }
+            ],
+            globalCoord: false // 缺省为 false
+          }
+        }
+      }
     }
   ]
 }

@@ -150,3 +150,33 @@ export function GetIsolationList(data) {
     params: {...data}
   })
 }
+
+// 统计人数分布
+export function CountPeopleDistribution() {
+  return request({
+    url: `/statisticalAnalysis/countPeopleDistribution`,
+    method: 'get'
+  })
+}
+// 统计各学院防疫人员和隔离人员配比
+export function CountDeptPeopleProportion() {
+  return request({
+    url: `/statisticalAnalysis/countDeptPeopleProportion`,
+    method: 'get'
+  })
+}
+// 统计各学院防疫人数占比
+///pc/statisticalAnalysis/countPeopleDistribution
+export function CountDeptEpidemicNum() {
+  return request({
+    url: `/statisticalAnalysis/countDeptEpidemicNum`,
+    method: 'get'
+  })
+}
+// 新增隔离人数趋势
+export function CountNewIsolationList() {
+  return request({
+    url: `/statisticalAnalysis/countNewIsolationList`,
+    method: 'get'
+  })
+}

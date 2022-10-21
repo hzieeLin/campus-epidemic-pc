@@ -14,7 +14,11 @@
             <img src="../../../assets/images/s4.png" v-show="index === 3" style="width: 40%;" alt="">
             <div style="margin-left: 20px">
               <div class="number">{{item.num}}</div>
-              同比 {{Math.abs(item.vary)}}% <el-icon v-if="item.vary > 0" style="color: #ff0000"><CaretTop /></el-icon><el-icon v-else style="color: #00a205"><CaretBottom /></el-icon>
+              同比
+              <el-icon v-if="item.vary > 0" style="color: #ff0000"><CaretTop /></el-icon>
+              <el-icon v-if="item.vary == 0" style="color: #00a205"></el-icon>
+              <el-icon v-if="item.vary < 0" style="color: #00a205"><CaretBottom /></el-icon>
+              {{Math.abs(item.vary)}}%
             </div>
          </div>
         </el-card>
@@ -40,6 +44,13 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import * as echarts from 'echarts'
+import {
+  CountDeptEpidemicNum,
+  CountDeptPeopleProportion, CountNewIsolationList,
+  CountPeopleDistribution
+} from "../../../api/administrator/query";
+import { rightData1 } from "./echarsOptions";
+
 const bgColor = reactive([
     '#F63D2E','#FD7F13','#FDBA04','#10C8C0'
 ])
@@ -52,10 +63,47 @@ const topData = ref([
 onMounted(() => {
   loadMapScript()
   handleCharts()
-  handleIsolationTrendCharts()
   handleDistributedCharts()
+  getPeopleDistribution()
+  getDeptPeopleProportion()
+  getDeptEpidemicNum()
+  getNewIsolationList()
 })
-
+const getPeopleDistribution = () => {
+  CountPeopleDistribution().then(res => {
+    topData.value[0].num = res.allIsolationNum
+    topData.value[0].vary = res.allIsolationPositive ? res.allIsolationPercent : ~res.allIsolationPercent
+    topData.value[1].num = res.newIsolationNum
+    topData.value[1].vary = res.newIsolationPositive ? res.newIsolationPercent : ~res.newIsolationPercent
+    topData.value[2].num = res.newRemoveNum
+    topData.value[2].vary = res.newRemovePositive ? res.newRemovePercent : ~res.newRemovePercent
+    topData.value[3].num = res.leaveYesterdayNum
+    topData.value[3].vary = res.leaveYesterdayPositive ? res.leaveYesterdayPercent : ~res.leaveYesterdayPercent
+  })
+}
+const getDeptPeopleProportion = () => {
+  CountDeptPeopleProportion().then(res => {
+    console.log('res1', res)
+  })
+}
+const getDeptEpidemicNum = () => {
+  CountDeptEpidemicNum().then(res => {
+    console.log('res2', res)
+  })
+}
+const getNewIsolationList = () => {
+  CountNewIsolationList().then(res => {
+    console.log('res3', res)
+    res.data.forEach(item => {
+      data.value.xAxis.data.unshift(item.time)
+      data.value.series[0].data.unshift({
+        value: item.count
+      })
+    })
+    console.log(data.value.series[0].data)
+    handleIsolationTrendCharts()
+  })
+}
 const init = () => {
   let AMap = window.AMap;
   let map = new AMap.Map("allmap", {
@@ -87,143 +135,7 @@ const loadMapScript = () => {
   }
   document.body.appendChild(script);
 }
-const data = ref({
-  tooltip: {
-    trigger: 'axis'
-  },
-  legend: {
-    data: ['新增隔离人数'],
-        top: '5%',
-        right: '4%',
-        color: '#0093ff'
-  },
-  grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-  },
-  xAxis: {
-    type: 'category',
-        boundaryGap: false,
-        nameLocation: 'center',
-        splitLine: {
-      show: false,
-          lineStyle: {
-        color: '#ebebeb'
-      }
-    },
-    axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    },
-    nameGap: 10,
-        nameTextStyle: {
-      fontSize: 14,
-          padding: [0, 0, 10, 0]
-    },
-    data: ["05-01",
-      "05-02",
-      "05-03",
-      "05-04",
-      "05-05",
-      "05-06",
-      "05-07"]
-  },
-  yAxis: {
-    type: 'value',
-        axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    },
-    minInterval: 1,
-        nameGap: 20,
-        nameLocation: 'center',
-        nameRotate: '90',
-        nameTextStyle: {
-      fontSize: 14,
-          padding: [0, 0, 0, 0, 0]
-    },
-    splitLine: {
-      // 网格线
-      lineStyle: {
-        type: 'dashed'
-      },
-      show: true
-    }
-  },
-  series: [
-    {
-      name: '新增隔离人数',
-      type: 'line',
-      stack: 'Total',
-      symbol: 'circle',
-      symbolSize: 7,
-      data: [
-    {year: '', value: 3},
-    {year: '', value: 10},
-    {year: '', value: 10},
-    {year: '', value: 5},
-    {year: '', value: 7},
-    {year: '', value: 2},
-    {year: '', value: 3}
-      ],
-      lineStyle: { // 设置线条的style等
-        normal: {
-          color: '#10C8C0', // 折线线条颜色:红色,
-          width: 3
-        }
-      },
-      itemStyle : {
-        color:{     //渐变  属性值 同CSS
-          type:"linear",
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-            offset: 0, color: '#10C8C0' // 0% 处的颜色
-          }, {
-            offset: 1, color: '#fff' // 100% 处的颜色
-          }],
-        }
-      },
-      areaStyle: {
-        normal: {
-          color: {
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0.1,
-                color: '#D2F4F3' // 0% 处的颜色
-              },
-              {
-                offset: 0.5,
-                color: '#DBF6F6' // 0% 处的颜色
-              },
-              {
-                offset: 0.8,
-                color: '#EBF9FA' // 0% 处的颜色
-              },
-              {
-                offset: 0.9,
-                color: '#F9FDFE' // 100% 处的颜色
-              }
-            ],
-            globalCoord: false // 缺省为 false
-          }
-        }
-      }
-    }
-  ]
-})
+const data = ref(rightData1)
 const handleIsolationTrendCharts = () => {
   const myChart = echarts.init(document.getElementById('c3'))
   myChart.setOption(data.value, true)

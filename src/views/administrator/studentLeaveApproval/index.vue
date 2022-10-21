@@ -61,11 +61,11 @@
           <div class="operational-item cursor" v-if="item.approvalResult === 0">
             <span class="font" style="color: #20a7f1" @click="handle(item)">处理</span>
           </div>
-          <div class="operational-item cursor" v-else-if="item.approvalResult === 1">
-            <span class="font" style="color: #13ce66">审批通过</span>
-          </div>
           <div class="operational-item cursor" v-else-if="item.approvalResult === 2">
             <span class="font" style="color: #e70c0c">审批失败</span>
+          </div>
+          <div class="operational-item cursor" v-else="item.approvalResult === 1">
+            <span class="font" style="color: #13ce66">审批通过</span>
           </div>
         </div>
       </div>
