@@ -13,19 +13,19 @@
         <div class="item-row">
           <div class="item-cow">
             <el-form-item label="学号" name="code">
-              <el-input v-model:value="form.code" placeholder="请输入学号" />
+              <el-input v-model="form.code" placeholder="请输入学号" />
             </el-form-item>
           </div>
           <div class="item-cow">
             <el-form-item label="姓名" name="name">
-              <el-input v-model:value="form.name" placeholder="请输入姓名" />
+              <el-input v-model="form.name" placeholder="请输入姓名" />
             </el-form-item>
           </div>
         </div>
         <div class="item-row">
           <div class="item-cow">
             <el-form-item label="联系方式" name="phone">
-              <el-input v-model:value="form.phone" placeholder="请输入联系方式" />
+              <el-input v-model="form.phone" placeholder="请输入联系方式" />
             </el-form-item>
           </div>
           <div class="item-cow">
@@ -52,15 +52,15 @@
         <div class="item-row">
           <div class="item-cow">
             <el-form-item label="所属学院" name="deptCode">
-              <el-select v-model="form.deptCode" @change="emitDeptCode(form.deptCode)">
-                <el-option :value="item.code" v-for="(item, index) in props.DeptList" :key="index">{{item.label}}</el-option>
+              <el-select v-model="form.deptCode" @change="getMajorListByCode(form.deptCode)">
+                <el-option :value="item.label" v-for="(item, index) in DeptList" :key="index">{{item.label}}</el-option>
               </el-select>
             </el-form-item>
           </div>
           <div class="item-cow">
             <el-form-item label="所属专业" name="majorCode">
-              <el-select v-model="form.majorCode"  @change="emitMajorCode(form.majorCode)">
-                <el-option :value="item.code" v-for="(item, index) in props.majorList" :key="index" >{{item.label}}</el-option>
+              <el-select v-model="form.majorCode"  @change="getMajorListByCode(form.majorCode)">
+                <el-option :value="item.label" v-for="(item, index) in majorList" :key="index" >{{item.label}}</el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -69,7 +69,7 @@
           <div class="item-cow">
             <el-form-item label="所在班级" name="classCode">
               <el-select v-model="form.classCode" placeholder="请选择对应的班级号" >
-                <el-option :value="item.code" v-for="(item, index) in props.classList" :key="index">{{item.label}}</el-option>
+                <el-option :value="item.label" v-for="(item, index) in classList" :key="index">{{item.label}}</el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -91,14 +91,16 @@
     <template #footer>
       <div class="edit-footer">
         <el-button>取消</el-button>
-        <el-button type="primary">确定</el-button>
+        <el-button type="primary" @click="addStudent">确定</el-button>
       </div>
     </template>
   </el-drawer>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import {GetClassListByMajorCode, GetDeptList, GetMajorListByDeptCode} from "../../../../../api/administrator/query";
+import {AddStuInfo} from "../../../../../api/administrator/insert";
 const props = defineProps(['addShowVisible', 'DeptList', 'majorList', 'classList'])
 const form = ref({
   code:"",
@@ -126,24 +128,48 @@ const form = ref({
 //   idCard:[{ required: 'true', message: '身份证不能为空！'}],
 //   address:[{ required: 'true', message: '家庭地址不能为空！'}]
 // })
-form.value.deptCode = undefined
-form.value.majorCode = undefined
-form.value.classCode = undefined
+watch(() => props.addShowVisible, (newVal) => {
+  if (newVal) {
+    getDeptList()
+  }
+})
 
-const emit = defineEmits(['onClose', 'emitDeptCode', 'emitMajorCode'])
-const emitDeptCode = (code) => {
+const DeptList = ref([])
+// 获取全部的院系
+const getDeptList = () => {
+  GetDeptList().then(res => {
+    DeptList.value = res.data
+    getMajorListByCode(res.data[0].code)
+  })
+}
+const majorList = ref([])
+const getMajorListByCode = (code) => {
   const data = {
     deptCode: code
   }
-  console.log('emit', code)
-  emit('emitDeptCode', data)
+  GetMajorListByDeptCode(data).then((res) => {
+    majorList.value = res.data
+    getClassListByCode(res.data[0].code)
+  })
 }
-const emitMajorCode = (code) => {
+
+// 通过专业名获取班级号
+const classList = ref([])
+const getClassListByCode = (code) => {
   const data = {
     majorCode: code
   }
-  console.log(data)
-  emit('emitMajorCode', data)
+  GetClassListByMajorCode(data).then((res) => {
+    classList.value = res.data
+  })
+}
+const emit = defineEmits(['addClose'])
+
+const addStudent = () => {
+  AddStuInfo(form.value).then(res => {
+    console.log(res)
+    onClose()
+  })
 }
 // 关闭窗口
 const onClose = () => {

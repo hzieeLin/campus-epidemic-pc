@@ -30,9 +30,9 @@
           </template>
          <div>
          </div>
-          <div class="card-footer cursor" v-if="item.result === 0">
+          <div class="card-footer cursor" v-if="item.result === 0 ||item.result === 3">
             <span style="color: #13ce66" @click="accessOpen(item.id, item.type)">同意</span>
-            <span style="color: #e70c0c" @click="rejectOpen(item.id)">拒绝</span>
+            <span style="color: #e70c0c" @click="rejectOpen(item.id, item.type)">拒绝</span>
           </div>
           <div class="card-footer" v-else>
             <span style="color: #13ce66">已处理</span>
@@ -76,15 +76,15 @@ onMounted(() => {
 })
 const getFeedbackList = () => {
   GetFeedbackList(queryInfo.value).then((res) => {
-    dataList.value = res.data
-    total.value = res.total
+    dataList.value = res.data.data
+    total.value = res.data.total
   })
 }
 const getStatisticsFeedback = () => {
   GetStatisticsFeedback().then((res) => {
-    awaitList.value[0].num = res.undoneCount
-    awaitList.value[1].num = res.solvedCount
-    awaitList.value[2].num = res.allCount
+    awaitList.value[0].num = res.data.undoneCount
+    awaitList.value[1].num = res.data.solvedCount
+    awaitList.value[2].num = res.data.allCount
   })
 }
 const handlePageSize = (size) => {
@@ -138,12 +138,12 @@ const rejectOpen = (id,type) => {
   warnMessage.value = `确定拒绝该学生的${types}审批！`
 }
 const handleProcess = (e) => {
-  if (e.agree === true) {
+  if (e.agree === 1) {
     AgreeFeedback(approvalIdInfo.value).then(() => {
       warnShowVisible.value = false
       getFeedbackList()
     })
-  } else if (e.agree === false) {
+  } else if (e.agree === 2) {
     RejectFeedback(approvalIdInfo.value).then(() => {
       warnShowVisible.value = false
       getFeedbackList()

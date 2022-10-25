@@ -77,8 +77,8 @@ const areaList = ref([])
 const total = ref(0)
 const getRiskAreaList = () => {
   GetRiskAreaList(queryInfo.value).then((res) => {
-    areaList.value = res.data
-    total.value = res.total
+    areaList.value = res.data.data
+    total.value = res.data.total
   })
 }
 const handlePageSize = (size) => {
@@ -110,10 +110,9 @@ const handleSelectionChange = (val) => {
 }
 const getRiskAreaStatistics = () => {
   GetStatisticsStreet().then((res) => {
-    console.log(res);
-    awaitList.value[0].num = res.normalNum
-    awaitList.value[1].num = res.midNum
-    awaitList.value[2].num = res.highNum
+    awaitList.value[0].num = res.data.normalNum
+    awaitList.value[1].num = res.data.midNum
+    awaitList.value[2].num = res.data.highNum
   })
 }
 const queryRiskLevel = (level) => {

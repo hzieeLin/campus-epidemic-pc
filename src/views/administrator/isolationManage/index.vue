@@ -57,8 +57,8 @@ onMounted(() => {
 })
 const getIsolationList = () => {
   GetIsolationList(queryInfo.value).then((res) => {
-    list.value = res.data
-    total.value = res.total
+    list.value = res.data.data
+    total.value = res.data.total
   })
 }
 const keyQueryIsolation = (e) => {

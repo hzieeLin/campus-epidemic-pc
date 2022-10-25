@@ -50,7 +50,7 @@ const queryInfo = ref({
 })
 const getEpidemicList =() => {
   GetEpidemicList(queryInfo.value).then((res) => {
-    epidemicList.value = res.data
+    epidemicList.value = res.data.data
     for (const key in epidemicList.value) {
       epidemicList.value[key].sex =epidemicList.value[key].sex === 1 ? '男' : '女'
     }

@@ -100,9 +100,9 @@ const awaitList = ref([
 ])
 const getStatisticsLeave = () => {
   GetStatisticsLeave().then((res) => {
-    awaitList.value[0].num = res.undoneCount
-    awaitList.value[1].num = res.solvedCount
-    awaitList.value[2].num = res.allCount
+    awaitList.value[0].num = res.data.undoneCount
+    awaitList.value[1].num = res.data.solvedCount
+    awaitList.value[2].num = res.data.allCount
   })
 }
 const radioCheck = ref(1)
@@ -128,8 +128,8 @@ onMounted(() => {
 const total = ref(0)
 const getLeaveList = () => {
   GetPageLeaveList(queryInfo.value).then((res) => {
-    leaveList.value = res.data
-    total.value = res.total
+    leaveList.value = res.data.data
+    total.value = res.data.total
   })
 }
 const handlePageSize = (size) => {

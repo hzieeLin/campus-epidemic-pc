@@ -91,15 +91,15 @@ onMounted(() => {
 // 获取全部的院系
 const getDeptList = () => {
   GetDeptList().then(res => {
-    DeptList.value = res
+    DeptList.value = res.data
   })
 }
-// 获取学生全部信息并传给表格
+// 获取学生基本信息
 const total = ref()
 const getStuList = () => {
   GetStuInfoList(queryInfo.value).then(res => {
-    stuInfo.value = res.data
-    total.value = res.total
+    stuInfo.value = res.data.data
+    total.value = res.data.total
     for (const key in stuInfo.value) {
       stuInfo.value[key].sex = stuInfo.value[key].sex === 1 ? '男' : '女'
     }
@@ -129,7 +129,6 @@ const addStuClose = () => {
 // 查看对话框的开关设置
 const queryShowVisible = ref(false)
 const queryStuInfo = ref({})
-// 把选择行的表格数据转给对话框
 const handleStuInfoQuery = (data) => {
   queryShowVisible.value = true
   queryStuInfo.value = data
@@ -157,7 +156,6 @@ const handleStuInfoDelete = (code) => {
 const delStu = () => {
   DeleteStudentByCode(delCodeData.value).then(() => {
     warnShowVisible.value = false
-    ElMessage.success(`删除学生成功！`)
     getStuList()
   })
 }
@@ -165,7 +163,7 @@ const delStu = () => {
 const majorList = ref([])
 const getMajorListByCode = (data) => {
   GetMajorListByDeptCode(data).then((res) => {
-    majorList.value = res
+    majorList.value = res.data
     console.log('MajorList')
   })
 }
@@ -173,7 +171,7 @@ const getMajorListByCode = (data) => {
 const classList = ref([])
 const getClassListByCode = (data) => {
   GetClassListByMajorCode(data).then((res) => {
-    classList.value = res
+    classList.value = res.data
   })
 }
 </script>

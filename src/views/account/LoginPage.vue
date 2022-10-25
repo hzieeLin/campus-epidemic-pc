@@ -82,20 +82,22 @@ import { useUserStore, useMenuStore } from '../../stores/index.js'
 import {AccountLogin} from "../../api/account";
 import util from "../../util";
 import {GetMenus} from "../../api/system/menu";
+const menu = useMenuStore()
+const user = useUserStore()
 const login = () => {
   const list = {
     account: loginInfo.username,
     password: loginInfo.password
   }
   AccountLogin(list).then(res => {
-    util.cookies.set('token', res.token)
+    console.error(res.data.userType)
+    util.cookies.set('token', res.data.token)
     GetMenus().then((res) => {
-      const menu = useMenuStore()
-      menu.setMenus(res)
+      menu.setMenus(res.data)
     })
-    const user = useUserStore()
-    user.setInfo(res.information)
-    if (res.userType === '管理员') {
+    console.log(res.information)
+    user.setInfo(res.data.information)
+    if (res.data.userType === '管理员') {
       router.replace('/statisticalAnalysis')
     } else {
       router.replace('/isolationFeedbackProcess')

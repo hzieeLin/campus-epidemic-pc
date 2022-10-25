@@ -91,8 +91,8 @@ const getStuDaily = () => {
     month: new Date().getMonth() + 1
   }
   GetStuDaily(data).then(res => {
-    dataList.value = res
-    res.forEach((item) => {
+    dataList.value = res.data
+    res.data.forEach((item) => {
       dataList.value.push({
         day: dateFormat(item.createTime, 4),
         has: item.promise,

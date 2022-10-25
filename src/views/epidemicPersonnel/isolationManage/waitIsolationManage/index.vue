@@ -16,7 +16,7 @@
           <el-table-column prop="className" label="班级"></el-table-column>
           <el-table-column prop="area" label="隔离地点"></el-table-column>
           <el-table-column label="操作" align="center">
-            <template #default="socpe">
+            <template #default="scope">
               <div class="cursor" @click="handleIsolation(scope.row.id)" style="color: #20a7f1">进行隔离</div>
             </template>
           </el-table-column>
@@ -41,6 +41,7 @@ import SearchBox from '../../../../components/searchBox/index.vue'
 import {onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
 import {GetIsolationList} from "../../../../api/epidemicPersonnel/query";
+import {UpdateStuState} from "../../../../api/epidemicPersonnel/update";
 const queryInfo = ref({
   pageNum: 1,
   pageSize: 10,
@@ -54,8 +55,8 @@ onMounted(() => {
 })
 const getToBeIsolationPerson = () => {
   GetIsolationList(queryInfo.value).then((res) => {
-    list.value = res.data
-    total.value = res.total
+    list.value = res.data.data
+    total.value = res.data.total
   })
 }
 const queryKeyWaitIsolation = (e) => {
@@ -73,13 +74,13 @@ const handlePageNum = (num) => {
   getToBeIsolationPerson()
 }
 const handleIsolation = (id) => {
-  // const data = {
-  //   id: id
-  // }
-  // HandleIsolation(data).then(() => {
-  //   ElMessage.success('已将该学生进行隔离！')
-  //   getToBeIsolationPerson()
-  // })
+  const data = {
+    id: id
+  }
+  UpdateStuState(data).then(() => {
+    ElMessage.success('已将该学生进行隔离！')
+    getToBeIsolationPerson()
+  })
 }
 </script>
 

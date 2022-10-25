@@ -7,17 +7,10 @@
       </div>
     </el-card>
     <el-card class="search-input-card margin-top" shadow="never">
-      <!--      <div class="type-radio">-->
-      <!--        <el-tabs v-model="radioType"  @tab-click="handleClick">-->
-      <!--          <el-tab-pane label="物质请求" :name="1"></el-tab-pane>-->
-      <!--          <el-tab-pane label="意见反馈" :name="2"></el-tab-pane>-->
-      <!--          <el-tab-pane label="全部" :name="0"></el-tab-pane>-->
-      <!--        </el-tabs>-->
-      <!--      </div>-->
       <div class="search-box">
         <div>
           <el-radio-group v-model="radioCheck" size="large" @change="handleRadio">
-            <el-radio-button label="0">待办</el-radio-button>
+            <el-radio-button label="1">我的</el-radio-button>
             <el-radio-button label="2">全部</el-radio-button>
           </el-radio-group>
         </div>
@@ -38,7 +31,9 @@
           </div>
           <div class="card-footer cursor" v-if="item.result === 0">
             <span style="color: #13ce66" @click="accessOpen(item.id, item.type)">同意</span>
-            <span style="color: #e70c0c" @click="rejectOpen(item.id)">拒绝</span>
+            <span style="color: #e70c0c" @click="rejectOpen(item.id, item.type)">拒绝</span>
+            <span style="color: #20a7f1" @click="unableOpen(item.id, item.type)">无法处理</span>
+
           </div>
           <div class="card-footer" v-else>
             <span style="color: #13ce66">已处理</span>
@@ -65,7 +60,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import MessageDialog from '../../../components/messageDialog/index.vue'
-import {AgreeEpidemicFeedbackAcceptance, RejectEpidemicFeedbackAcceptance} from "../../../api/epidemicPersonnel/update";
+import {AgreeEpidemicFeedbackAcceptance, RejectEpidemicFeedbackAcceptance, UnableDealEpidemicFeedbackAcceptance} from "../../../api/epidemicPersonnel/update";
 import { QueryPageEpidemicFeedbackAcceptance, AnalyzeEpidemicFeedbackAcceptance} from "../../../api/epidemicPersonnel/query"
 //
 const awaitList = ref([
@@ -75,9 +70,9 @@ const awaitList = ref([
 ])
 const analyzeEpidemicFeedbackAcceptance = () => {
   AnalyzeEpidemicFeedbackAcceptance().then((res) => {
-    awaitList.value[0].num = res.undoneCount
-    awaitList.value[1].num = res.solvedCount
-    awaitList.value[2].num = res.allCount
+    awaitList.value[0].num = res.data.undoneCount
+    awaitList.value[1].num = res.data.solvedCount
+    awaitList.value[2].num = res.data.allCount
   })
 }
 let total = ref(0)
@@ -94,8 +89,8 @@ onMounted(() => {
 const dataList = ref([])
 const getFeedbackList = () => {
   QueryPageEpidemicFeedbackAcceptance(queryInfo.value).then((res) => {
-    dataList.value = res.data
-    total.value = res.total
+    dataList.value = res.data.data
+    total.value = res.data.total
   })
 }
 // const queryInfo2 = ref({
@@ -110,16 +105,17 @@ const handlePageNum = (num) => {
   queryInfo.value.pageNum = num
   getFeedbackList()
 }
-const radioCheck = ref(0)
+const radioCheck = ref(1)
 const handleRadio = (index) => {
   switch (index) {
-    case '0':
-      queryInfo.value.queryType = 1
-      break
     case '1':
-      queryInfo.value.queryType = 2
+      queryInfo.value.isSponsor = 1
+      break
+    case '2':
+      queryInfo.value.isSponsor = 2
       break
   }
+  getFeedbackList()
 }
 const warnShowVisible = ref(false)
 const approvalIdInfo = ref({
@@ -144,14 +140,27 @@ const rejectOpen = (id,type) => {
   warnShowVisible.value = true
   warnMessage.value = `确定拒绝该学生的${types}审批！`
 }
+const unableOpen = (id,type) => {
+  const types = type === 1 ? '物质请求' : '意见反馈'
+  msgType.value = 'feedbackUnable'
+  approvalIdInfo.value.id = id
+  approvalIdInfo.value.messageReturn = '无法处理'
+  warnShowVisible.value = true
+  warnMessage.value = `确定向上提交该学生的${types}审批！`
+}
 const handleProcess = (e) => {
-  if (e.agree === true) {
+  if (e.agree === 1) {
     AgreeEpidemicFeedbackAcceptance(approvalIdInfo.value).then(() => {
       warnShowVisible.value = false
       getFeedbackList()
     })
-  } else if (e.agree === false) {
+  } else if (e.agree === 2) {
     RejectEpidemicFeedbackAcceptance(approvalIdInfo.value).then(() => {
+      warnShowVisible.value = false
+      getFeedbackList()
+    })
+  } else if (e.agree === 3) {
+    UnableDealEpidemicFeedbackAcceptance(approvalIdInfo.value).then(() => {
       warnShowVisible.value = false
       getFeedbackList()
     })

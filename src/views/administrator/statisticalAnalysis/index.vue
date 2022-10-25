@@ -49,7 +49,7 @@ import {
   CountDeptPeopleProportion, CountNewIsolationList,
   CountPeopleDistribution
 } from "../../../api/administrator/query";
-import { rightData1 } from "./echarsOptions";
+import { rightData1,rightData2, rightData3 } from "./echarsOptions";
 
 const bgColor = reactive([
     '#F63D2E','#FD7F13','#FDBA04','#10C8C0'
@@ -71,30 +71,48 @@ onMounted(() => {
 })
 const getPeopleDistribution = () => {
   CountPeopleDistribution().then(res => {
-    topData.value[0].num = res.allIsolationNum
-    topData.value[0].vary = res.allIsolationPositive ? res.allIsolationPercent : ~res.allIsolationPercent
-    topData.value[1].num = res.newIsolationNum
-    topData.value[1].vary = res.newIsolationPositive ? res.newIsolationPercent : ~res.newIsolationPercent
-    topData.value[2].num = res.newRemoveNum
-    topData.value[2].vary = res.newRemovePositive ? res.newRemovePercent : ~res.newRemovePercent
-    topData.value[3].num = res.leaveYesterdayNum
-    topData.value[3].vary = res.leaveYesterdayPositive ? res.leaveYesterdayPercent : ~res.leaveYesterdayPercent
+    topData.value[0].num = res.data.allIsolationNum
+    topData.value[0].vary = res.data.allIsolationPositive ? res.data.allIsolationPercent : ~res.data.allIsolationPercent
+    topData.value[1].num = res.data.newIsolationNum
+    topData.value[1].vary = res.data.newIsolationPositive ? res.data.newIsolationPercent : ~res.data.newIsolationPercent
+    topData.value[2].num = res.data.newRemoveNum
+    topData.value[2].vary = res.data.newRemovePositive ? res.data.newRemovePercent : ~res.data.newRemovePercent
+    topData.value[3].num = res.data.leaveYesterdayNum
+    topData.value[3].vary = res.data.leaveYesterdayPositive ? res.data.leaveYesterdayPercent : ~res.data.leaveYesterdayPercent
   })
 }
 const getDeptPeopleProportion = () => {
   CountDeptPeopleProportion().then(res => {
     console.log('res1', res)
+    res.data.epidemicList.forEach(item => {
+      data2.value.xAxis.data.push(item.name)
+      data2.value.series[0].data.push(item.count)
+    })
+    res.data.isolatedList.forEach(item => {
+      data2.value.series[1].data.push(item.count)
+    })
+    handleCharts()
   })
 }
 const getDeptEpidemicNum = () => {
   CountDeptEpidemicNum().then(res => {
-    console.log('res2', res)
+    res.data.data.forEach(item => {
+      data3.value.series[0].data.push({
+        value: item.count
+      })
+      data3.value.series[1].data.push({
+        value: item.count,
+        name: item.name
+      })
+    })
+    handleDistributedCharts()
   })
+  console.log(data3.value.series[0].data)
+
 }
 const getNewIsolationList = () => {
   CountNewIsolationList().then(res => {
-    console.log('res3', res)
-    res.data.forEach(item => {
+    res.data.data.forEach(item => {
       data.value.xAxis.data.unshift(item.time)
       data.value.series[0].data.unshift({
         value: item.count
@@ -143,120 +161,7 @@ const handleIsolationTrendCharts = () => {
     myChart.resize();
   })
 }
-const data2 = ref( {
-  legend: {
-    data: ['防疫人员', '隔离人员'],
-    left: '65%',
-    top: '5%',
-    itemHeight: 15,
-    itemWidth: 15
-  },
-  tooltip: {},
-  xAxis: {
-    data: ['文学院', '计算机学院','教育学院','体育科学学院','医学院','护理学院','公共卫生学院','商学院','艺术学院'],
-    name: '学院',
-    axisLine: { onZero: true },
-    splitLine: { show: false },
-    splitArea: { show: false },
-    axisLabel: {
-      rotate: 30
-    }
-  },
-  yAxis: {
-    splitLine: {
-      // 网格线
-      lineStyle: {
-        type: 'dashed'
-      },
-      show: true
-    }
-  },
-  series: [
-    {
-      name: '防疫人员',
-      type: 'bar',
-      stack: 'one',
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(0,0,0,0.3)'
-        }
-      },
-      itemStyle: {
-        normal: {
-          color: {
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0.1,
-                color: '#10C8C0' // 0% 处的颜色
-              },
-              {
-                offset: 0.5,
-                color: '#4acdc7' // 0% 处的颜色
-              },
-              {
-                offset: 0.8,
-                color: '#e5fcfa' // 0% 处的颜色
-              },
-              {
-                offset: 0.9,
-                color: '#f8fffd' // 100% 处的颜色
-              }
-            ],
-            globalCoord: false // 缺省为 false
-          }
-        }
-      },
-      data: [11,22,33,44,55,66,77,88,99],
-      barWidth:'20%',
-    },
-    {
-      name: '隔离人员',
-      type: 'bar',
-      stack: 'one',
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(0,0,0,0.3)'
-        }
-      },
-      itemStyle: {
-        normal: {
-          color: {
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0.1,
-                color: '#FDBA04' // 0% 处的颜色
-              },
-              {
-                offset: 0.5,
-                color: '#ffcf4d' // 0% 处的颜色
-              },
-              {
-                offset: 0.8,
-                color: '#f8e09f' // 0% 处的颜色
-              },
-              {
-                offset: 0.9,
-                color: '#f8f6fc' // 100% 处的颜色
-              }
-            ],
-            globalCoord: false // 缺省为 false
-          }
-        }
-      },
-      data: [99,88,77,66,55,44,33,22,11]
-    }
-  ]
-})
+const data2 = ref(rightData2)
 const handleCharts = () => {
   const myChart = echarts.init(document.getElementById('c1'))
   myChart.setOption(data2.value, true)
@@ -264,82 +169,7 @@ const handleCharts = () => {
     myChart.resize()
   }
 }
-const data3 = ref({
-  legend: {                       //图例
-    show:false,                   //是否显示图例
-    orient: 'vertical',           //布局方向
-    x: 'left'                    //图例相对
-  },
-  series: [                       //内容
-    {
-      name:'',      //内容标题
-      type:'pie',                 //图标样式
-      selectedMode: 'single',     //选中模式：单选
-      radius: ['40%', '70%'],         //饼图大小，[x,y]:x表示内半径，y表示外半径
-      label: {                    //标签
-        show: false,
-        position: 'center'
-      },
-      labelLine: {        //提示框
-        normal: {
-          show: true     //是否显示
-        }
-      },
-      color:['#fc867d','#fb9692','#fba459','#f8c94b',
-        '#8ca8ee','#90c3f1','#8cc8e9', '#8ecac7',
-        '#b3d5d3'],   //颜色
-      emphasis: {
-        label: {
-          show: true,
-          fontSize: '40',
-          fontWeight: 'bold'
-        }
-      },
-      data:[                                              //数据
-        {value:71,name:''},
-        {value:79,name:''},
-        {value:79,name:''},
-        {value:79,name:''},
-        {value:79,name:''},
-        {value:79,name:''},
-        {value:79,name:''},
-        {value:79,name:''},
-        {value:79,name:''}
-      ],
-    },
-    {
-      name:'男女占比',
-      type:'pie',
-      radius: ['70%', '78%'],
-      labelLine:{
-        normal:{
-          length:2,
-        }
-      },
-      color:['#F63D2E','#ff5a52','#FD7F13','#FDBA04',
-        '#2f65ed','#56a9f2','#20a7f1', '#10C8C0',
-        '#71d7d1'],   //颜色
-      data:[
-        {value:71,name:'文学院'},
-        {value:79,name:'计算机学院'},
-        {value:79,name:'教育学院'},
-        {value:79,name:'体育科学学院'},
-        {value:79,name:'医学院'},
-        {value:79,name:'护理学院'},
-        {value:79,name:'公共卫生学院'},
-        {value:79,name:'商学院'},
-        {value:79,name:'艺术学院'}
-      ],
-      label:
-          {
-            normal: {
-              // textStyle: {
-              //   // color: '#aaa'     //提示框字体颜色
-              // }
-            }
-          },
-    }]
-})
+const data3 = ref(rightData3)
 const handleDistributedCharts = () => {
   const myChart = echarts.init(document.getElementById('c2'))
   myChart.setOption(data3.value, true)

@@ -20,7 +20,7 @@
         <el-button v-else-if="props.msgType === 'faculty'" type="primary" @click="onSure">确定</el-button>
         <el-button v-else-if="props.msgType === 'stu'" type="primary" @click="onDelStu">确定</el-button>
         <el-button v-else-if="props.msgType === 'del-faculty'" type="primary" @click="onDelFaculty">确定</el-button>
-        <el-button v-else-if="props.msgType === 'feedbackAccess'||props.msgType === 'feedbackReject'" type="primary" @click="onProcess">确定</el-button>
+        <el-button v-else-if="props.msgType === 'feedbackAccess'||props.msgType === 'feedbackReject'||props.msgType === 'feedbackUnable'" type="primary" @click="onProcess">确定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -50,9 +50,11 @@ const approval = () => {
 }
 const onProcess = () => {
   if (props.msgType === 'feedbackAccess') {
-    emit('onProcess', {agree: true})
-  } else {
-    emit('onProcess', {agree: false})
+    emit('onProcess', {agree: 1})
+  } else if (props.msgType === 'feedbackAccess'){
+    emit('onProcess', {agree: 2})
+  } else if (props.msgType === 'feedbackUnable') {
+    emit('onProcess', {agree: 3})
   }
 }
 const onDelStu = () => {

@@ -13,19 +13,19 @@
               <div class="item-row">
                 <div class="item-cow">
                   <el-form-item label="学号" name="code">
-                    <el-input v-model:value="props.editStuInfo.code" placeholder="请输入学号" />
+                    <el-input  v-model="props.editStuInfo.code" placeholder="请输入学号" />
                   </el-form-item>
                 </div>
                 <div class="item-cow">
                   <el-form-item label="姓名" name="name">
-                    <el-input v-model:value="props.editStuInfo.name" placeholder="请输入学号" />
+                    <el-input  v-model="props.editStuInfo.name" placeholder="请输入学号" />
                   </el-form-item>
                 </div>
               </div>
               <div class="item-row">
                 <div class="item-cow">
                   <el-form-item label="联系方式" name="phone">
-                    <el-input v-model:value="props.editStuInfo.phone" placeholder="请输入联系方式" />
+                    <el-input  v-model="props.editStuInfo.phone" placeholder="请输入联系方式" />
                   </el-form-item>
                 </div>
                 <div class="item-cow">
@@ -52,15 +52,15 @@
               <div class="item-row">
                 <div class="item-cow">
                   <el-form-item label="所属学院" name="deptCode">
-                    <el-select v-model="props.editStuInfo.deptName" @change="emitDeptCode(props.editStuInfo.deptCode)">
-                      <el-option :value="item.code" v-for="(item, index) in props.DeptList" :key="index">{{item.label}}</el-option>
+                    <el-select v-model="props.editStuInfo.deptName" @change="getMajorListByCode(props.editStuInfo.deptCode)">
+                      <el-option :value="item.label" v-for="(item, index) in DeptList" :key="index">{{item.label}}</el-option>
                     </el-select>
                   </el-form-item>
                 </div>
                 <div class="item-cow">
                   <el-form-item label="所属专业" name="majorCode">
-                    <el-select v-model="props.editStuInfo.majorName"  @change="emitMajorCode(props.editStuInfo.majorCode)">
-                      <el-option :value="item.code" v-for="(item, index) in props.majorList" :key="index" >{{item.label}}</el-option>
+                    <el-select v-model="props.editStuInfo.majorName"  @change="getMajorListByCode(props.editStuInfo.majorCode)">
+                      <el-option :value="item.label" v-for="(item, index) in majorList" :key="index" >{{item.label}}</el-option>
                     </el-select>
                   </el-form-item>
                 </div>
@@ -69,20 +69,20 @@
                 <div class="item-cow">
                   <el-form-item label="所在班级" name="classCode">
                     <el-select v-model="props.editStuInfo.className" placeholder="请选择对应的班级号" >
-                      <el-option :value="item.code" v-for="(item, index) in props.classList" :key="index">{{item.label}}</el-option>
+                      <el-option :value="item.label" v-for="(item, index) in classList" :key="index">{{item.label}}</el-option>
                     </el-select>
                   </el-form-item>
                 </div>
                 <div class="item-cow">
                   <el-form-item label="紧急联系人" name="emergencyContact">
-                    <el-input v-model:value="props.editStuInfo.emergencyContact" />
+                    <el-input v-model="props.editStuInfo.emergencyContact" />
                   </el-form-item>
                 </div>
               </div>
               <div class="item-row">
                 <div class="item-cow">
                   <el-form-item label="紧急联系人联系方式" name="emergencyPhone">
-                    <el-input v-model:value="props.editStuInfo.emergencyPhone"/>
+                    <el-input  v-model="props.editStuInfo.emergencyPhone"/>
                   </el-form-item>
                 </div>
               </div>
@@ -90,36 +90,99 @@
     </el-form>
     <template #footer>
       <div class="edit-footer">
-        <el-button>取消</el-button>
-        <el-button type="primary">确定</el-button>
+        <el-button @click="onClose">取消</el-button>
+        <el-button type="primary" @click="editStuInfo">确定</el-button>
       </div>
     </template>
   </el-drawer>
 </template>
 
 <script setup>
-const props = defineProps(['editShowVisible','editStuInfo', 'DeptList', 'majorList', 'classList'])
+
+import {onMounted, ref, watch} from "vue";
+import {GetClassListByMajorCode, GetDeptList, GetMajorListByDeptCode} from "../../../../../api/administrator/query";
+import {UpdateStuInfo} from "../../../../../api/administrator/update";
+import {ElMessage} from "element-plus";
+const props = defineProps(['editShowVisible','editStuInfo'])
 const sexOptions = [
   { label: '男' , value: 1 },
   { label: '女', value:  2}
 ]
-const emit = defineEmits(['Close', 'emitDeptCode', 'emitMajorCode'])
+const emit = defineEmits(['Close'])
 const onClose = () => {
   emit('editClose', false)
 }
-const emitDeptCode = (code) => {
+watch(() => props.editShowVisible, (newVal) => {
+  if (newVal) {
+    getDeptList()
+  }
+})
+const DeptList = ref([])
+// 获取全部的院系
+const getDeptList = () => {
+  GetDeptList().then(res => {
+    DeptList.value = res.data
+    getMajorListByCode(res.data[0].code)
+  })
+}
+const majorList = ref([])
+const getMajorListByCode = (code) => {
   const data = {
     deptCode: code
   }
-  console.log('emit', code)
-  emit('emitDeptCode', data)
+  GetMajorListByDeptCode(data).then((res) => {
+    majorList.value = res.data
+    getClassListByCode(res.data[0].code)
+  })
 }
-const emitMajorCode = (code) => {
+
+// 通过专业名获取班级号
+const classList = ref([])
+const getClassListByCode = (code) => {
   const data = {
     majorCode: code
   }
+  GetClassListByMajorCode(data).then((res) => {
+    classList.value = res.data
+  })
+}
+
+const editStuInfo = () => {
+  let dept = DeptList.value.find(i => i.label === props.editStuInfo.deptName)
+  console.log(dept)
+  let major = majorList.value.find(i => i.label === props.editStuInfo.majorName)
+  console.log(major)
+  let _class = classList.value.find(i => i.label === props.editStuInfo.className)
+  console.log(_class)
+  const data = {
+    id: props.editStuInfo.id,
+    name:props.editStuInfo.name,
+    phone:props.editStuInfo.phone,
+    emergencyContact: props.editStuInfo.emergencyContact,
+    emergencyPhone:props.editStuInfo.emergencyPhone,
+    sex: props.editStuInfo.sex,
+    idCard:props.editStuInfo.idCard,
+    address:props.editStuInfo.address,
+    code:props.editStuInfo.code,
+    deptCode:dept.code,
+    majorCode:major.code,
+    classCode:_class.code
+  }
   console.log(data)
-  emit('emitMajorCode', data)
+  UpdateStuInfo(data).then(res =>{
+    console.log(res)
+    // ElMessage.success()
+    // if (res.code === 10006) {
+    //
+    // }else {
+    //   ElMessage.success('更新学生信息成功！')
+    // }
+    onClose()
+    console.log(res)
+  }).catch(err => {
+    console.error(err)
+  })
+  // console.log(props.editStuInfo)
 }
 </script>
 

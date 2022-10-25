@@ -103,10 +103,10 @@ const awaitList = ref([
 ])
 const statisticsAllData = () => {
   StatisticsAllData().then((res) => {
-    awaitList.value[0].num = res.notificationNotQuarantined
-    awaitList.value[1].num = res.isolated
-    awaitList.value[2].num = res.treat
-    awaitList.value[3].num = res.end
+    awaitList.value[0].num = res.data.notificationNotQuarantined
+    awaitList.value[1].num = res.data.isolated
+    awaitList.value[2].num = res.data.treat
+    awaitList.value[3].num = res.data.end
   })
 }
 const queryInfo = ref({
@@ -123,8 +123,8 @@ onMounted(() => {
 })
 const getIsolatedList = () => {
   GetIsolatedList(queryInfo.value).then((res) => {
-    list.value = res.data
-    total.value = res.total
+    list.value = res.data.data
+    total.value = res.data.total
     list.value = [
       { id: '001',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 37.3 },
       { id: '2',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 37.3 },

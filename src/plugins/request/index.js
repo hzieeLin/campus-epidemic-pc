@@ -4,18 +4,16 @@ import { ElMessage } from "element-plus";
 import router from "../../router";
 const service = axios.create({
   // baseURL: '/api/pc',
+  // baseURL: 'http://127.0.0.1:8080/campus-epidemic-system/pc',
   baseURL: 'https://49t17g0193.zicp.fun/campus-epidemic-system/pc',
   timeout: 5000
 })
 
 service.interceptors.request.use(config => {
-      console.log(config.data)
   config.headers.Authorization = util.cookies.get('token')
-  // config.headers['Content-Type'] = 'application/json'
   return config
 },
     error => {
-      // 发送失败
       Promise.reject(error)
     }
 )
@@ -26,7 +24,7 @@ service.interceptors.response.use(response => {
   const { code } = dataAxios
   switch (code) {
     case 200:
-      return dataAxios.data
+      return dataAxios
     case 300:
       ElMessage.success(`${dataAxios.message}`)
       break
@@ -37,6 +35,8 @@ service.interceptors.response.use(response => {
     case 401:
       ElMessage.error(`${dataAxios.message}`)
       router.replace('/login')
+    default:
+      ElMessage.error(`${dataAxios.message}`)
   }
 }, error => {
   if (error && error.response) {

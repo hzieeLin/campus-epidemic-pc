@@ -93,7 +93,7 @@ const DeptList = ref([])
 // 获取全部的院系
 const getDeptList = () => {
   GetDeptList().then(res => {
-    DeptList.value = res
+    DeptList.value = res.data
   })
 }
 const queryInfo = ref({
@@ -106,8 +106,8 @@ const total = ref(null)
 const facultyList = ref([])
 const getFacultyInfo = () => {
   GetFacultyInfoList(queryInfo.value).then((res) => {
-    total.value = res.total
-    facultyList.value = res.data
+    total.value = res.data.total
+    facultyList.value = res.data.data
     for (const key in facultyList.value) {
       facultyList.value[key].sex = facultyList.value[key].sex === 1 ? '男' : '女'
       facultyList.value[key].epidemicMark = facultyList.value[key].epidemicMark === 1
