@@ -142,6 +142,15 @@ export function GetStatisticsLeave() {
   })
 }
 
+// 查询请假的聊天记录
+export function QueryLeaveDetail(data) {
+  return request({
+    url: `/leave/queryLeaveDetail`,
+    method: 'get',
+    params: {...data}
+  })
+}
+
 // 查询本院的隔离人员
 export function GetIsolationList(data) {
   return request({
@@ -161,7 +170,7 @@ export function CountPeopleDistribution() {
 // 统计各学院防疫人员和隔离人员配比
 export function CountDeptPeopleProportion() {
   return request({
-    url: `/statisticalAnalysis/countDeptPeopleProportion`,
+    url: `/isolationPerson/countDeptPeopleProportion`,
     method: 'get'
   })
 }
@@ -169,14 +178,14 @@ export function CountDeptPeopleProportion() {
 ///pc/statisticalAnalysis/countPeopleDistribution
 export function CountDeptEpidemicNum() {
   return request({
-    url: `/statisticalAnalysis/countDeptEpidemicNum`,
+    url: `/isolationPerson/countDeptEpidemicNum`,
     method: 'get'
   })
 }
 // 新增隔离人数趋势
 export function CountNewIsolationList() {
   return request({
-    url: `/statisticalAnalysis/countNewIsolationList`,
+    url: `/isolationPerson/countNewIsolationList`,
     method: 'get'
   })
 }

@@ -18,7 +18,7 @@
         <el-table-column prop="startTime" label="开始隔离时间"></el-table-column>
         <el-table-column label="隔离进度">
             <template #default="scope">
-              <el-progress :percentage="getDaysBetween(dateFormat(null, 0), scope.row.endTime).toFixed(0)" />
+              <el-progress :percentage="getDaysBetween(new Date(), scope.row.endTime).toFixed(0)" />
             </template>
         </el-table-column>
       </el-table>

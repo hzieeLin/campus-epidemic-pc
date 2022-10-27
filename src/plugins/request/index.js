@@ -4,8 +4,8 @@ import { ElMessage } from "element-plus";
 import router from "../../router";
 const service = axios.create({
   // baseURL: '/api/pc',
-  baseURL: 'http://127.0.0.1:8080/campus-epidemic-system/pc',
-  // baseURL: 'https://49t17g0193.zicp.fun/campus-epidemic-system/pc',
+  // baseURL: 'http://127.0.0.1:8080/campus-epidemic-system/pc',
+  baseURL: '/api/pc',
   timeout: 5000
 })
 

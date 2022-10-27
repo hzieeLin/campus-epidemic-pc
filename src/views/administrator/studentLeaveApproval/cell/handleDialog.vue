@@ -46,7 +46,7 @@
       <div class="char-box" id="box" ref="box">
         <div v-for="(item, index) in charList" :key="item.id">
           <div v-if="item.type === 1|| item.type === 3" style="text-align: center">
-            {{item.time}}
+            {{item.createTime}}
           </div>
           <div class="chat-item"  :style="item.type === 1|| item.type === 3 ? 'flex-direction: row;':'flex-direction: row-reverse;'">
             <img src="../../../../assets/images/touxiang.png" style="height: 40px;width: 40px; margin-top: 3px" alt="">
@@ -79,7 +79,7 @@
 <script setup>
 import {onMounted, onUpdated, ref, watch, getCurrentInstance, reactive} from "vue";
 import {DealReturnLeave} from "../../../../api/administrator/insert";
-import {GetPageLeaveList} from "../../../../api/administrator/query.js"
+import {GetPageLeaveList, QueryLeaveDetail} from "../../../../api/administrator/query.js"
 const props = defineProps(['handleShowVisible','stuInfo'])
 const stuInfo = ref({})
 // eslint-disable-next-line vue/no-setup-props-destructure
@@ -89,12 +89,20 @@ const showVisible = ref(true)
 const footerShow = ref(false)
 let { ctx: proxy } = getCurrentInstance()
 watch(()=> props.handleShowVisible ,(newVal) => {
+  console.log(newVal)
   if (newVal === false) {
     footerShow.value = false
   } else {
     stuInfo.value = props.stuInfo
+    getLeaveDetailById(stuInfo.value.id)
   }
 },{immediate: true})
+const getLeaveDetailById = (id) => {
+  const data = { id: id}
+  QueryLeaveDetail(data).then(res => {
+    charList.value = res.data
+  })
+}
 const showReason = ref(false)
 const reason = ref('')
 const reasonDisable = ref(true)
@@ -114,23 +122,8 @@ const dealReturnLeave = () => {
     proxy.$forceUpdate();
     box.value.scrollTop = box.value.scrollHeight + '60'
     console.log(box.value.scrollHeight)
-    queryStuInfoByCode(stuInfo.value.code)
+    getLeaveDetailById(stuInfo.value.id)
     reason.value = ''
-  })
-}
-const queryStuInfoByCode = (code) => {
-  const queryInfo = {
-    typeFilter: 1,
-    wordType: 1,
-    keyword: code,
-    isStrideCounty: -1,
-    isStrideDay: -1,
-    isReturn: -1,
-    pageNum: 1,
-    pageSize: 5
-  }
-  GetPageLeaveList(queryInfo).then((res) => {
-    stuInfo.value = res.data[0]
   })
 }
 watch(() => stuInfo.value, (newVal) => {
@@ -157,10 +150,10 @@ const onClose = () => {
 const onSure = (state, id, reason) => {
   emit('onSure', {type: state, id: id, commit: reason})
 }
-watch(() => stuInfo.value, (newVal) => {
-  newVal.complex.shift()
-  charList.value = newVal.complex
-})
+// watch(() => stuInfo.value, (newVal) => {
+//   newVal.complex.shift()
+//   charList.value = newVal.complex
+// })
 watch(() => box.value, (newVal) => {
   console.log(newVal)
   if (newVal === undefined) {

@@ -100,6 +100,7 @@ const awaitList = ref([
   {title: '已通过', num: 0},
   {title: '全部', num: 0}
 ])
+const radioCheck = ref(0)
 const handleRadio = (index) => {
   switch (index) {
     case '0':
