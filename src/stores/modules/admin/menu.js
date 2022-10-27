@@ -4,17 +4,17 @@ export default defineStore('menu', {
   state: () => {
     return {
       // 是否隐藏
-      isSide: true,
+      isSide: false,
       // 默认侧边栏宽度
-      sideWidth: '13vw',
+      sideWidth: '3vw',
       BreadCrumbList: [],
       menuList: JSON.parse(localStorage.getItem('menuList') || '[]')
     }
   },
   actions: {
     toggleSide() {
-      this.isSide = this.isSide !== true
-      this.sideWidth = this.isSide === false ? '4vw' : '15vw'
+      this.isSide = !this.isSide
+      this.sideWidth = this.isSide === false ? '3vw' : '11vw'
     },
     setBreadCrumbList(info) {
       this.BreadCrumbList = info

@@ -15,9 +15,8 @@
             <div style="margin-left: 20px">
               <div class="number">{{item.num}}</div>
               同比
-              <el-icon v-if="item.vary > 0" style="color: #ff0000"><CaretTop /></el-icon>
-              <el-icon v-if="item.vary == 0" style="color: #00a205"></el-icon>
-              <el-icon v-if="item.vary < 0" style="color: #00a205"><CaretBottom /></el-icon>
+              <el-icon v-if="item.is_add" style="color: #ff0000"><CaretTop /></el-icon>
+              <el-icon v-if="!item.is_add" style="color: #00a205"><CaretBottom /></el-icon>
               {{Math.abs(item.vary)}}%
             </div>
          </div>
@@ -55,10 +54,10 @@ const bgColor = reactive([
     '#F63D2E','#FD7F13','#FDBA04','#10C8C0'
 ])
 const topData = ref([
-  {id: 0, title: '总隔离人数', num: 122, vary: -10},
-  {id: 1, title: '新增隔离人数', num: 1, vary: 16},
-  {id: 2, title: '新增解除人数', num: 3, vary: 2},
-  {id: 3, title: '昨日请假人数', num: 5, vary: -30}
+  {id: 0, title: '总隔离人数', num: 0, vary: 0, is_add: null},
+  {id: 1, title: '新增隔离人数', num: 0, vary: 0, is_add: null},
+  {id: 2, title: '新增解除人数', num: 0, vary: 0, is_add: null},
+  {id: 3, title: '昨日请假人数', num: 0, vary: 0, is_add: null}
 ])
 onMounted(() => {
   loadMapScript()
@@ -72,13 +71,17 @@ onMounted(() => {
 const getPeopleDistribution = () => {
   CountPeopleDistribution().then(res => {
     topData.value[0].num = res.data.allIsolationNum
-    topData.value[0].vary = res.data.allIsolationPositive ? res.data.allIsolationPercent : ~res.data.allIsolationPercent
+    topData.value[0].vary = res.data.allIsolationPercent
+    topData.value[0].is_add = res.data.allIsolationPositive
     topData.value[1].num = res.data.newIsolationNum
-    topData.value[1].vary = res.data.newIsolationPositive ? res.data.newIsolationPercent : ~res.data.newIsolationPercent
+    topData.value[1].vary = res.data.newIsolationPercent
+    topData.value[1].is_add = res.data.newIsolationPositive
     topData.value[2].num = res.data.newRemoveNum
-    topData.value[2].vary = res.data.newRemovePositive ? res.data.newRemovePercent : ~res.data.newRemovePercent
+    topData.value[2].vary = res.data.newRemovePercent
+    topData.value[2].is_add = res.data.newRemovePositive
     topData.value[3].num = res.data.leaveYesterdayNum
-    topData.value[3].vary = res.data.leaveYesterdayPositive ? res.data.leaveYesterdayPercent : ~res.data.leaveYesterdayPercent
+    topData.value[3].vary = res.data.leaveYesterdayPercent
+    topData.value[3].is_add = res.data.leaveYesterdayPositive
   })
 }
 const getDeptPeopleProportion = () => {
