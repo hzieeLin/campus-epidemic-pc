@@ -58,7 +58,7 @@
             <div class="">预计回校时间：</div>
             <div class="font">{{item.estimateEndTime}}</div>
           </div>
-          <div class="operational-item cursor" v-if="item.approvalResult === 0">
+          <div class="operational-item cursor" v-if="item.approvalResult === 0 || item.approvalResult === 3">
             <span class="font" style="color: #20a7f1" @click="handle(item)">处理</span>
           </div>
           <div class="operational-item cursor" v-else-if="item.approvalResult === 2">
