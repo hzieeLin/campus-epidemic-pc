@@ -171,12 +171,6 @@ const editStuInfo = () => {
   console.log(data)
   UpdateStuInfo(data).then(res =>{
     console.log(res)
-    // ElMessage.success()
-    // if (res.code === 10006) {
-    //
-    // }else {
-    //   ElMessage.success('更新学生信息成功！')
-    // }
     onClose()
     console.log(res)
   }).catch(err => {

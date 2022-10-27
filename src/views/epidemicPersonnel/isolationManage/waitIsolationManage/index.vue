@@ -14,7 +14,7 @@
           <el-table-column prop="code" label="学号"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="className" label="班级"></el-table-column>
-          <el-table-column prop="area" label="隔离地点"></el-table-column>
+          <el-table-column prop="quarantineLocation" label="隔离地点"></el-table-column>
           <el-table-column label="操作" align="center">
             <template #default="scope">
               <div class="cursor" @click="handleIsolation(scope.row.id)" style="color: #20a7f1">进行隔离</div>

@@ -58,3 +58,12 @@ export function RejectFeedback(data) {
     params: {...data}
   })
 }
+
+// 修改教职工信息
+export function UpdateFacultyInfo(data) {
+  return request({
+    url: `/teacher/updateTeacher`,
+    method: 'post',
+    data
+  })
+}

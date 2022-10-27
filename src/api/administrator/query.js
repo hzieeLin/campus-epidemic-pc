@@ -154,7 +154,7 @@ export function GetIsolationList(data) {
 // 统计人数分布
 export function CountPeopleDistribution() {
   return request({
-    url: `/statisticalAnalysis/countPeopleDistribution`,
+    url: `/isolationPerson/countPeopleDistribution`,
     method: 'get'
   })
 }

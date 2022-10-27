@@ -125,14 +125,6 @@ const getIsolatedList = () => {
   GetIsolatedList(queryInfo.value).then((res) => {
     list.value = res.data.data
     total.value = res.data.total
-    list.value = [
-      { id: '001',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 37.3 },
-      { id: '2',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 37.3 },
-      { id: '3',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 39.3 },
-      { id: '4',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 37.3 },
-      { id: '5',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 39.3 },
-      { id: '6',code: '001', name: '张三', className: '1909', quarantineLocation: '小行星', startTime: '2022-09-09 12:12:12', endTime: '2022-09-09 12:12:12', temperature: 37.3 },
-    ]
   })
 }
 const queryKeyIsolated = (e) => {

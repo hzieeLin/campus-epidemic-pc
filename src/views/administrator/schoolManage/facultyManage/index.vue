@@ -56,6 +56,7 @@
     </AddFacultyInfo>
     <EditFacultyInfo :editShowVisible="editShowVisible"
                      :editFacultyInfo="editFacultyInfo"
+                     @updateInfo="handleUpdateInfo"
                      @editClose="editClose"
                      :DeptList="DeptList"
     >
@@ -156,6 +157,10 @@ const DelFaculty = () => {
     warnShowVisible.value = false
     getFacultyInfo()
   })
+}
+const handleUpdateInfo = () => {
+  editShowVisible.value = false
+  getFacultyInfo()
 }
 const editShowVisible = ref(false)
 const editFacultyInfo = ref({})
