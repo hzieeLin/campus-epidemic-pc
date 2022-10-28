@@ -137,7 +137,7 @@ const getIsolatedList = () => {
 }
 const queryKeyIsolated = (e) => {
   queryInfo.value.keyword = e.keyWord
-  queryInfo.value.wordType = e.wordType
+  queryInfo.value.wordType = parseInt(e.wordType) + 1
   getIsolatedList()
 }
 const handlePageSize = (size) => {
