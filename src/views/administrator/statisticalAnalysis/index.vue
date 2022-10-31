@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {onActivated, onMounted, onUpdated, reactive, ref, watch} from "vue";
 import * as echarts from 'echarts'
 import {
   CountDeptEpidemicNum,
@@ -49,7 +49,9 @@ import {
   CountPeopleDistribution
 } from "../../../api/administrator/query";
 import { rightData1,rightData2, rightData3 } from "./echarsOptions";
-
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 const bgColor = reactive([
     '#F63D2E','#FD7F13','#FDBA04','#10C8C0'
 ])
@@ -68,6 +70,7 @@ onMounted(() => {
   getDeptEpidemicNum()
   getNewIsolationList()
 })
+
 const getPeopleDistribution = () => {
   CountPeopleDistribution().then(res => {
     topData.value[0].num = res.data.allIsolationNum
@@ -86,7 +89,8 @@ const getPeopleDistribution = () => {
 }
 const getDeptPeopleProportion = () => {
   CountDeptPeopleProportion().then(res => {
-    console.log('res1', res)
+    data2.value.xAxis.data = []
+    data2.value.series[0].data = []
     res.data.epidemicList.forEach(item => {
       data2.value.xAxis.data.push(item.name)
       data2.value.series[0].data.push(item.count)
@@ -99,6 +103,8 @@ const getDeptPeopleProportion = () => {
 }
 const getDeptEpidemicNum = () => {
   CountDeptEpidemicNum().then(res => {
+    data3.value.series[0].data = []
+    data3.value.series[1].data = []
     res.data.data.forEach(item => {
       data3.value.series[0].data.push({
         value: item.count
@@ -114,6 +120,8 @@ const getDeptEpidemicNum = () => {
 
 }
 const getNewIsolationList = () => {
+  data.value.xAxis.data = []
+  data.value.series[0].data = []
   CountNewIsolationList().then(res => {
     res.data.data.forEach(item => {
       data.value.xAxis.data.unshift(item.time)
@@ -121,7 +129,6 @@ const getNewIsolationList = () => {
         value: item.count
       })
     })
-    console.log(data.value.series[0].data)
     handleIsolationTrendCharts()
   })
 }
@@ -130,12 +137,12 @@ const init = () => {
   let map = new AMap.Map("allmap", {
     rotateEnable:true,
     pitchEnable:true,
-    zoom: 19,
+    zoom: 18,
     pitch: 50,
     rotation: -15,
     viewMode:'3D', //开启3D视图,默认为关闭
     // zooms:[2,20],
-    center: [119.822565,30.292662], //中心点坐标
+    center: [119.822565,30.291062], //中心点坐标
   });
 };
 const loadMapScript = () => {
@@ -158,7 +165,8 @@ const loadMapScript = () => {
 }
 const data = ref(rightData1)
 const handleIsolationTrendCharts = () => {
-  const myChart = echarts.init(document.getElementById('c3'))
+  document.getElementById("c3").removeAttribute('_echarts_instance_')
+  let myChart = echarts.init(document.getElementById('c3'))
   myChart.setOption(data.value, true)
   window.addEventListener("resize", () => {
     myChart.resize();
@@ -166,7 +174,8 @@ const handleIsolationTrendCharts = () => {
 }
 const data2 = ref(rightData2)
 const handleCharts = () => {
-  const myChart = echarts.init(document.getElementById('c1'))
+  document.getElementById("c1").removeAttribute('_echarts_instance_')
+  let myChart = echarts.init(document.getElementById('c1'))
   myChart.setOption(data2.value, true)
   window.onresize = () => {
     myChart.resize()
@@ -174,7 +183,8 @@ const handleCharts = () => {
 }
 const data3 = ref(rightData3)
 const handleDistributedCharts = () => {
-  const myChart = echarts.init(document.getElementById('c2'))
+  document.getElementById("c2").removeAttribute('_echarts_instance_')
+  let myChart = echarts.init(document.getElementById('c2'))
   myChart.setOption(data3.value, true)
   window.onresize = () => {
     myChart.resize()
@@ -183,14 +193,6 @@ const handleDistributedCharts = () => {
 </script>
 
 <style lang="less" scoped>
-
-#allmap {
-  // 注意给dom宽高，不然地图不出来
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 1;
-}
 .page-container {
   position: relative;
   width: 100%;
@@ -242,7 +244,7 @@ const handleDistributedCharts = () => {
       background: #F5FAFD;
       border-radius: 10px;
       .title {
-        padding: 5px 0 5px 5px;
+        padding: 5px 0 5px 16px;
         font-family: titleFont;
         width: 90%;
         font-size: 24px;
@@ -268,5 +270,11 @@ const handleDistributedCharts = () => {
   font-size: 42px;
   font-weight: bolder;
   text-align: right;
+}
+#allmap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
 }
 </style>

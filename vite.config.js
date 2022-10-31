@@ -10,7 +10,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8080/campus-epidemic-system',
+        target: 'http://1.15.240.139:1234/campus-epidemic-system',
         secure: false,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')

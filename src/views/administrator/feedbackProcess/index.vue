@@ -143,11 +143,13 @@ const handleProcess = (e) => {
     AgreeFeedback(approvalIdInfo.value).then(() => {
       warnShowVisible.value = false
       getFeedbackList()
+      getStatisticsFeedback()
     })
   } else if (e.agree === 2) {
     RejectFeedback(approvalIdInfo.value).then(() => {
       warnShowVisible.value = false
       getFeedbackList()
+      getStatisticsFeedback()
     })
   }
 }
